@@ -3,8 +3,10 @@ package com.github.dawnflyc.heavenearthring.event;
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
@@ -17,5 +19,7 @@ import org.apache.logging.log4j.Logger;
 public  class ModEvent {
 
     private static final Logger LOGGER = LogManager.getLogger();
+
+
 
 }

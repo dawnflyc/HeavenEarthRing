@@ -1,6 +1,7 @@
 package com.github.dawnflyc.heavenearthring.api;
 
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -9,16 +10,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.stream.Collectors;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class InterMod {
 
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public InterMod() {
-
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-    }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
     {

@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.stream.Collectors;
 
 @Mod("heavenearthring")
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class HeavenEarthRing {
     /**
      * 代理
@@ -55,17 +56,17 @@ public class HeavenEarthRing {
 
     public HeavenEarthRing() {
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::CommonSetup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         ModRegistry.itemRegister("space_essence",spaceEssenceItem);
     }
 
-    private void CommonSetup(final FMLCommonSetupEvent event)
+    @SubscribeEvent
+    public static void CommonSetup(final FMLCommonSetupEvent event)
     {
 
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
+    @SubscribeEvent
+    public static void clientSetup(final FMLClientSetupEvent event) {
 
     }
 }
