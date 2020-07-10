@@ -1,3 +1,6 @@
 {"item.heavenearthring.space_essence":"空间精髓",
-"tooltip.heavenearthring.item.space_essence": "此物品放主手，任意非方块物品放副手，即可赋予空间力量（库存）"
+  "item.heavenearthring.item_model": "物品模型",
+  "item.heavenearthring.model_mud": "模型泥",
+  "tooltip.heavenearthring.item.space_essence": "此物品放主手，任意非方块物品放副手，即可赋予空间力量（库存）,会消耗物品小心使用！",
+  "tooltip.heavenearthring.item.model_mud": "此物品放主手，任意物品放副手，即可制作物品模型(复杂模型无法制作，比如头颅、箱子)，不会消耗物品。"
 }

@@ -1,12 +1,10 @@
 package com.github.dawnflyc.heavenearthring.item;
 
+import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -28,15 +26,17 @@ public class SpaceEssenceItem extends Item {
 
     public SpaceEssenceItem(Properties properties) {
         super(properties);
+        this.setRegistryName(HeavenEarthRing.MOD_ID,"space_essence");
     }
+
+    public static final Item ITEM=new SpaceEssenceItem(new Item.Properties().group(ItemGroup.MISC));
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        if (!worldIn.isRemote){
+        if (!worldIn.isRemote && handIn==Hand.MAIN_HAND){
             ItemStack main=playerIn.getHeldItem(Hand.MAIN_HAND);
-            
             ItemStack off=playerIn.getHeldItem(Hand.OFF_HAND);
             if (main.getItem() instanceof SpaceEssenceItem && !(off.getItem() instanceof BlockItem)){
                 if (main.getCount()>0 && off.getCount()>0){
@@ -54,8 +54,7 @@ public class SpaceEssenceItem extends Item {
                         off.setCount(off.getCount()-1);
                     }
                     playerIn.addItemStackToInventory(is);
-                    LOGGER.info(off.getTag().toString());
-                    LOGGER.info(nbt.toString());
+                    return ActionResult.resultSuccess(main);
                 }
             }
         }

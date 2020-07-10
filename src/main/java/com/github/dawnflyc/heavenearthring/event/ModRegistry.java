@@ -32,12 +32,10 @@ public class ModRegistry {
 
     /**
      * 注册物品
-     * @param itemid
      * @param item
      */
-    public static void itemRegister(String itemid,Item item){
-        item.setRegistryName(HeavenEarthRing.MOD_ID,itemid);
-        REG_ITEMS.put(itemid,item);
+    public static void itemRegister(Item item){
+        REG_ITEMS.put(item.getRegistryName().getPath(),item);
     }
 
     /**

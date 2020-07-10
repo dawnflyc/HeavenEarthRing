@@ -4,6 +4,8 @@ import com.github.dawnflyc.heavenearthring.client.ClientProxy;
 import com.github.dawnflyc.heavenearthring.common.CommonProxy;
 import com.github.dawnflyc.heavenearthring.event.ModEvent;
 import com.github.dawnflyc.heavenearthring.event.ModRegistry;
+import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
+import com.github.dawnflyc.heavenearthring.item.ModelMudItem;
 import com.github.dawnflyc.heavenearthring.item.SpaceEssenceItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -51,12 +53,10 @@ public class HeavenEarthRing {
     public static final String MOD_NAME = "Heaven Earth Ring";
 
 
-    private static final Item spaceEssenceItem=new SpaceEssenceItem(new Item.Properties().group(ItemGroup.MISC));
-
-
     public HeavenEarthRing() {
-
-        ModRegistry.itemRegister("space_essence",spaceEssenceItem);
+        ModRegistry.itemRegister(SpaceEssenceItem.ITEM);
+        ModRegistry.itemRegister(ModelMudItem.ITEM);
+        ModRegistry.itemRegister(ItemModelItem.ITEM);
     }
 
     @SubscribeEvent
