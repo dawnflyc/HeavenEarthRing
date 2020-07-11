@@ -1,5 +1,6 @@
 package com.github.dawnflyc.heavenearthring.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
@@ -34,8 +35,12 @@ public class ModelMudItemOverrideList extends ItemOverrideList {
                 if (item != null) {
                     Minecraft minecraft = Minecraft.getInstance();
                     IBakedModel bakedModel = minecraft.getItemRenderer().getItemModelWithOverrides(new ItemStack(item), worldIn, null);
+                    MultipartBakedModel.Builder builder=new MultipartBakedModel.Builder();
                     if (bakedModel instanceof SimpleBakedModel){
                         return bakedModel;
+                    }else if (bakedModel instanceof BuiltInModel){
+                        //Block block=((BlockItem)item).getBlock();
+                        builder.putModel(blockState ->{return true;},bakedModel);
                     }
                 }
             }

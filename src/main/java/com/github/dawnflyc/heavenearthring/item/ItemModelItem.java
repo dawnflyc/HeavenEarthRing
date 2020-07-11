@@ -1,7 +1,9 @@
 package com.github.dawnflyc.heavenearthring.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
 public class ItemModelItem extends Item {
@@ -14,7 +16,7 @@ public class ItemModelItem extends Item {
     }
 
     @Override
-    public ITextComponent getName() {
-        return super.getName();
+    public int getItemEnchantability() {
+        return 10;
     }
 }
