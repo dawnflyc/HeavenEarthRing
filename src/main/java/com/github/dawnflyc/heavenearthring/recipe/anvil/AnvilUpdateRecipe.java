@@ -1,12 +1,9 @@
-package com.github.dawnflyc.heavenearthring.event;
-
-import net.minecraft.item.ItemStack;
+package com.github.dawnflyc.heavenearthring.recipe.anvil;
 
 /**
  * 铁砧配方
  */
 public interface AnvilUpdateRecipe {
-
 
     /**
      * 铁砧配方

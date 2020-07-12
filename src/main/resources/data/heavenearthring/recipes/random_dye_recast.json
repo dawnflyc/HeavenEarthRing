@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "heavenearthring:random_dye_recast",
+  "ingredients": [
+    {
+      "item": "heavenearthring:random_dye"
+    }
+  ],
+  "result": {
+    "item": "heavenearthring:random_dye",
+    "count": 1
+  }
+}

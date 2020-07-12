@@ -2,13 +2,13 @@ package com.github.dawnflyc.heavenearthring.event;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
-import com.github.dawnflyc.heavenearthring.item.ModItemColor;
-import net.minecraft.block.Block;
+import com.github.dawnflyc.heavenearthring.item.util.ModItemColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.RecipeBook;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -42,6 +42,15 @@ public class ModRegistry {
     public static void itemRegister(Item item){
         REG_ITEMS.put(item.getRegistryName().getPath(),item);
     }
+    /**
+     * 注册物品
+     * @param item
+     * @param registryName
+     */
+    public static void itemRegister(Item item,String registryName){
+        item.setRegistryName(HeavenEarthRing.MOD_ID,registryName);
+        REG_ITEMS.put(item.getRegistryName().getPath(),item);
+    }
 
     /**
      * 注册事件，改注册类型，需要改参数泛型
@@ -60,6 +69,7 @@ public class ModRegistry {
     public static void itemColors(ColorHandlerEvent.Item event) {
         event.getItemColors().register(new ModItemColor(), ItemModelItem.ITEM);
     }
+
 
 
 

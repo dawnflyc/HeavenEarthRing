@@ -1,17 +1,14 @@
 package com.github.dawnflyc.heavenearthring.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.item.util.ModelMudBakedModel;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.client.renderer.model.BuiltInModel;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.renderer.model.SimpleBakedModel;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
@@ -62,22 +59,24 @@ public class ModelMudItem extends Item {
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
         if (!context.getWorld().isRemote){
-            if ( context.getHand() == Hand.MAIN_HAND && context.getItem().getCount()>0) {
-                //根据方块制作物品模型线
-                   BlockState blockState= context.getWorld().getBlockState(context.getPos());
-                   ItemStack stack=createModelByBlockState(context.getWorld(),context.getPos());
-                //减少模型泥数量，给予模型
-                if (stack!=null){
-                    if (!context.getPlayer().isCreative()){
-                        context.getItem().setCount(context.getItem().getCount()-1);
+            if (context.getItem().getCount()>0) {
+                if (!(context.getHand()==Hand.MAIN_HAND && !context.getPlayer().getHeldItem(Hand.OFF_HAND).isEmpty() && !(context.getPlayer().getHeldItem(Hand.OFF_HAND).getItem() instanceof ItemModelItem))) {
+                    //根据方块制作物品模型线
+                    BlockState blockState = context.getWorld().getBlockState(context.getPos());
+                    ItemStack stack = createModelByBlockState(context.getWorld(), context.getPos());
+                    //减少模型泥数量，给予模型
+                    if (stack != null) {
+                        if (!context.getPlayer().isCreative()) {
+                            context.getItem().setCount(context.getItem().getCount() - 1);
+                        }
+                        context.getPlayer().addItemStackToInventory(stack);
+                        return ActionResultType.SUCCESS;
                     }
-                    context.getPlayer().addItemStackToInventory(stack);
-                    return ActionResultType.SUCCESS;
                 }
             }
 
         }
-        return super.onItemUse(context);
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -98,7 +97,7 @@ public class ModelMudItem extends Item {
                 }
             }
         }
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        return ActionResult.resultPass(playerIn.getHeldItem(handIn));
     }
 
     @Override
@@ -117,12 +116,13 @@ public class ModelMudItem extends Item {
             if ( bakedModel instanceof SimpleBakedModel){
                 ItemStack is=new ItemStack(ItemModelItem.ITEM,1);
                 CompoundNBT nbt= new CompoundNBT();
-                nbt.putString("item_model_id",itemStack.getItem().getRegistryName().toString());
-
+                nbt.putString("id",itemStack.getItem().getRegistryName().toString());
+                nbt.putString("langkey",itemStack.getTranslationKey());
                 int itemColor=Minecraft.getInstance().getItemColors().getColor(itemStack,0);
-                nbt.putInt("item_model_color", color!=0 ? color : itemColor!=0 ? itemColor : 0);
-                is.setTag(nbt);
-                is.setDisplayName(itemStack.getDisplayName());
+                nbt.putInt("color", color!=-1 ? color : itemColor!=-1 ? itemColor : -1);
+                CompoundNBT compoundNBT=new CompoundNBT();
+                compoundNBT.put("item_model",nbt);
+                is.setTag(compoundNBT);
                 return is;
             }
             return null;

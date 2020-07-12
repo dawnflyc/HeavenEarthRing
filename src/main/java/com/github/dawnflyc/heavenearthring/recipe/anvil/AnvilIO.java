@@ -1,4 +1,4 @@
-package com.github.dawnflyc.heavenearthring.event;
+package com.github.dawnflyc.heavenearthring.recipe.anvil;
 
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.item.EnchantedBookItem;

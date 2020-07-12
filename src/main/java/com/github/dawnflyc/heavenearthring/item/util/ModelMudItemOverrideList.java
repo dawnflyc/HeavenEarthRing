@@ -1,5 +1,6 @@
-package com.github.dawnflyc.heavenearthring.item;
+package com.github.dawnflyc.heavenearthring.item.util;
 
+import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MinecartItem;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.PerspectiveMapWrapper;
@@ -29,9 +31,10 @@ public class ModelMudItemOverrideList extends ItemOverrideList {
     public IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
         if (stack.getItem() instanceof ItemModelItem) {
             CompoundNBT nbt = stack.getTag();
-            String path;
-            if (nbt != null && (path = nbt.getString("item_model_id")) != null) {
-                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(path));
+            CompoundNBT itemModel;
+            String id;
+            if (nbt != null && (itemModel = (CompoundNBT) nbt.get("item_model")) != null && (id=itemModel.getString("id"))!=null) {
+                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
                 if (item != null) {
                     Minecraft minecraft = Minecraft.getInstance();
                     IBakedModel bakedModel = minecraft.getItemRenderer().getItemModelWithOverrides(new ItemStack(item), worldIn, null);

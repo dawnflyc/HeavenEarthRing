@@ -2,15 +2,16 @@ package com.github.dawnflyc.heavenearthring;
 
 import com.github.dawnflyc.heavenearthring.client.ClientProxy;
 import com.github.dawnflyc.heavenearthring.common.CommonProxy;
-import com.github.dawnflyc.heavenearthring.event.AnvilIO;
+import com.github.dawnflyc.heavenearthring.item.util.ModItem;
+import com.github.dawnflyc.heavenearthring.recipe.anvil.AnvilIO;
 import com.github.dawnflyc.heavenearthring.event.ModEvent;
 import com.github.dawnflyc.heavenearthring.event.ModRegistry;
 import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
 import com.github.dawnflyc.heavenearthring.item.ModelMudItem;
 import com.github.dawnflyc.heavenearthring.item.SpaceEssenceItem;
+import com.github.dawnflyc.heavenearthring.recipe.anvil.ModAnvil;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -48,31 +49,8 @@ public class HeavenEarthRing {
 
     public HeavenEarthRing() {
         //注册物品
-        ModRegistry.itemRegister(SpaceEssenceItem.ITEM);
-        ModRegistry.itemRegister(ModelMudItem.ITEM);
-        ModRegistry.itemRegister(ItemModelItem.ITEM);
-        //添加铁砧配方
-        ModEvent.AddAnvilRecipe(input -> {
-            if (input.getLeft().getItem() instanceof ItemModelItem || input.getRight().getItem() instanceof ItemModelItem) {
-                if (input.getRight().getTag() != null) {
-                    ItemStack result = input.getLeft().copy();
-                    ListNBT bookNbt = input.getRight().getTag().getList("StoredEnchantments", 10);
-                    ListNBT itemNbt = input.getRight().getTag().getList("Enchantments", 10);
-                    ListNBT nbt = itemNbt != null && itemNbt.size()>0 ? itemNbt.copy() : bookNbt != null && bookNbt.size()>0 ? bookNbt.copy() : null;
-                    if (nbt != null) {
-                        CompoundNBT nbt1=result.getTag();
-                        if (nbt1==null){
-                            nbt1=new CompoundNBT();
-                            result.setTag(nbt1);
-                        }
-                        nbt1.put("Enchantments", nbt);
-                        LOGGER.info(nbt);
-                        return new AnvilIO.AnvilOutput(result, 1);
-                    }
-                }
-            }
-            return null;
-        });
+        new ModItem();
+        new  ModAnvil();
 
     }
 
