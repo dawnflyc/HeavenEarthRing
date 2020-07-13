@@ -108,7 +108,7 @@ public class ModelMudItem extends Item {
     }
 
     protected ItemStack createModelByItem(ItemStack itemStack){
-            return createModel(itemStack,0);
+            return createModel(itemStack,-1);
         }
 
         protected ItemStack createModel(ItemStack itemStack,int color){

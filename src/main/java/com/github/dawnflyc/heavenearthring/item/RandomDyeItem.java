@@ -1,6 +1,7 @@
 package com.github.dawnflyc.heavenearthring.item;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -33,12 +34,18 @@ public class RandomDyeItem extends Item {
         this.setRegistryName("random_dye");
     }
 
+
     @Override
-    public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-        CompoundNBT compoundNBT=new CompoundNBT();
-        compoundNBT.putInt("color",new Color(random.nextInt(256),random.nextInt(256),random.nextInt(256)).getRGB());
-        stack.setTag(compoundNBT);
-        super.onCreated(stack, worldIn, playerIn);
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        if (!worldIn.isRemote){
+            if (entityIn instanceof PlayerEntity){
+                if (stack.getTag()==null){
+                    CompoundNBT compoundNBT=new CompoundNBT();
+                    compoundNBT.putInt("color",new Color(random.nextInt(256),random.nextInt(256),random.nextInt(256)).getRGB());
+                    stack.setTag(compoundNBT);
+                }
+            }
+        }
     }
 
     @Override
