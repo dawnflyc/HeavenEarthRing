@@ -1,11 +1,10 @@
 package com.github.dawnflyc.heavenearthring.event;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
+import com.github.dawnflyc.heavenearthring.item.model.IModel;
+import com.github.dawnflyc.heavenearthring.item.model.ItemModelItem;
 import com.github.dawnflyc.heavenearthring.item.util.ModItemColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipeBook;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -67,7 +66,7 @@ public class ModRegistry {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void itemColors(ColorHandlerEvent.Item event) {
-        event.getItemColors().register(new ModItemColor(), ItemModelItem.ITEM);
+        //event.getItemColors().register(new ModItemColor(), IModel);
     }
 
 

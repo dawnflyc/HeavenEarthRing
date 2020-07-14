@@ -3,21 +3,13 @@ package com.github.dawnflyc.heavenearthring;
 import com.github.dawnflyc.heavenearthring.client.ClientProxy;
 import com.github.dawnflyc.heavenearthring.common.CommonProxy;
 import com.github.dawnflyc.heavenearthring.item.util.ModItem;
-import com.github.dawnflyc.heavenearthring.recipe.anvil.AnvilIO;
-import com.github.dawnflyc.heavenearthring.event.ModEvent;
-import com.github.dawnflyc.heavenearthring.event.ModRegistry;
-import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
-import com.github.dawnflyc.heavenearthring.item.ModelMudItem;
-import com.github.dawnflyc.heavenearthring.item.SpaceEssenceItem;
 import com.github.dawnflyc.heavenearthring.recipe.anvil.ModAnvil;
-import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,7 +43,6 @@ public class HeavenEarthRing {
         //注册物品
         new ModItem();
         new  ModAnvil();
-
     }
 
     @SubscribeEvent

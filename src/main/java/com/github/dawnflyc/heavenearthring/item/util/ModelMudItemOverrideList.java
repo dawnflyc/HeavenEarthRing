@@ -1,23 +1,14 @@
 package com.github.dawnflyc.heavenearthring.item.util;
 
-import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import com.github.dawnflyc.heavenearthring.item.model.ItemModelItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.MinecartRenderer;
-import net.minecraft.client.renderer.entity.model.MinecartModel;
 import net.minecraft.client.renderer.model.*;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.MinecartItem;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.registries.ForgeRegistries;
 

@@ -1,13 +1,11 @@
-package com.github.dawnflyc.heavenearthring.item;
+package com.github.dawnflyc.heavenearthring.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
 
-public class ItemModelItem extends Item {
+public class ItemModelItem extends Item implements IModel {
 
     public static final ItemModelItem ITEM=new ItemModelItem(new Properties());
 
@@ -16,10 +14,6 @@ public class ItemModelItem extends Item {
         this.setRegistryName(HeavenEarthRing.MOD_ID,"item_model");
     }
 
-    @Override
-    public int getItemEnchantability() {
-        return 10;
-    }
 
     @Override
     public String getTranslationKey(ItemStack stack) {

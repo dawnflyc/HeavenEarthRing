@@ -1,6 +1,8 @@
 package com.github.dawnflyc.heavenearthring.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.item.model.IModel;
+import com.github.dawnflyc.heavenearthring.item.model.ItemModelItem;
 import com.github.dawnflyc.heavenearthring.item.util.ModelMudBakedModel;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -28,7 +30,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModelMudItem extends Item {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -41,26 +42,13 @@ public class ModelMudItem extends Item {
         this.setRegistryName(HeavenEarthRing.MOD_ID,"model_mud");
     }
 
-    @SubscribeEvent
-    public static void onModelBaked(ModelBakeEvent event) {
-        Map<ResourceLocation, IBakedModel> modelRegistry = event.getModelRegistry();
-        ModelResourceLocation location = new ModelResourceLocation(ItemModelItem.ITEM.getRegistryName(), "inventory");
-        IBakedModel existingModel = modelRegistry.get(location);
-        if (existingModel == null) {
-            throw new RuntimeException("改物品未注册于注册表中");
-        } else if (existingModel instanceof ModelMudBakedModel) {
-            throw new RuntimeException("两次尝试！");
-        } else {
-            ModelMudBakedModel modelMudBakedModel = new ModelMudBakedModel(existingModel);
-            event.getModelRegistry().put(location, modelMudBakedModel);
-        }
-    }
+
 
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
         if (!context.getWorld().isRemote){
             if (context.getItem().getCount()>0) {
-                if (!(context.getHand()==Hand.MAIN_HAND && !context.getPlayer().getHeldItem(Hand.OFF_HAND).isEmpty() && !(context.getPlayer().getHeldItem(Hand.OFF_HAND).getItem() instanceof ItemModelItem))) {
+                if (!(context.getHand()==Hand.MAIN_HAND && !context.getPlayer().getHeldItem(Hand.OFF_HAND).isEmpty() && !(context.getPlayer().getHeldItem(Hand.OFF_HAND).getItem() instanceof IModel))) {
                     //根据方块制作物品模型线
                     BlockState blockState = context.getWorld().getBlockState(context.getPos());
                     ItemStack stack = createModelByBlockState(context.getWorld(), context.getPos());
@@ -82,7 +70,7 @@ public class ModelMudItem extends Item {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         if (!worldIn.isRemote){
-            if (handIn == Hand.MAIN_HAND && !(playerIn.getHeldItem(Hand.OFF_HAND).getItem() instanceof ItemModelItem)){
+            if (handIn == Hand.MAIN_HAND && !(playerIn.getHeldItem(Hand.OFF_HAND).getItem() instanceof IModel)){
                 ItemStack main=playerIn.getHeldItem(Hand.MAIN_HAND);
                 ItemStack off=playerIn.getHeldItem(Hand.OFF_HAND);
                 if (main.getCount()>0 && off.getCount()>0){

@@ -1,17 +1,11 @@
 package com.github.dawnflyc.heavenearthring.recipe.anvil;
 
-import com.github.dawnflyc.heavenearthring.item.ItemModelItem;
 import com.github.dawnflyc.heavenearthring.item.RandomDyeItem;
-import com.github.dawnflyc.heavenearthring.item.util.ModItem;
+import com.github.dawnflyc.heavenearthring.item.model.IModel;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-
-import java.awt.*;
-import java.util.Random;
 
 public class ModAnvil {
 
@@ -19,7 +13,7 @@ public class ModAnvil {
     public ModAnvil() {
         //添加铁砧配方,继承附魔
         AnvilEvent.AddAnvilRecipe(input -> {
-            if (input.getLeft().getItem() instanceof ItemModelItem || input.getRight().getItem() instanceof ItemModelItem) {
+            if (input.getLeft().getItem() instanceof IModel || input.getRight().getItem() instanceof IModel) {
                 if (input.getRight().getTag() != null) {
                     ItemStack result = input.getLeft().copy();
                     ListNBT bookNbt = input.getRight().getTag().getList("StoredEnchantments", 10);
@@ -40,7 +34,7 @@ public class ModAnvil {
         });
         //模型染色
         AnvilEvent.AddAnvilRecipe(input -> {
-            if (input.getLeft().getItem() instanceof ItemModelItem){
+            if (input.getLeft().getItem() instanceof IModel){
                 CompoundNBT compoundNBT=input.getLeft().getTag().copy();
                 if (compoundNBT!=null){
                     CompoundNBT model=compoundNBT.getCompound("item_model");
