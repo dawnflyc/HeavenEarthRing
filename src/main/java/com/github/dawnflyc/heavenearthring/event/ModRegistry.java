@@ -1,13 +1,7 @@
 package com.github.dawnflyc.heavenearthring.event;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.item.model.IModel;
-import com.github.dawnflyc.heavenearthring.item.model.ItemModelItem;
-import com.github.dawnflyc.heavenearthring.item.util.ModItemColor;
 import net.minecraft.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,7 +22,7 @@ public class ModRegistry {
     /**
      * Mod注册表，调用方法将对象put进来，游戏注册事件遍历调用
      */
-    private static final Map<String, Item> REG_ITEMS=new HashMap<>();
+    public static final Map<String, Item> REG_ITEMS=new HashMap<>();
 
     public ModRegistry() {
 
@@ -48,7 +42,7 @@ public class ModRegistry {
      */
     public static void itemRegister(Item item,String registryName){
         item.setRegistryName(HeavenEarthRing.MOD_ID,registryName);
-        REG_ITEMS.put(item.getRegistryName().getPath(),item);
+        REG_ITEMS.put(item.getRegistryName().getNamespace(),item);
     }
 
     /**
@@ -61,12 +55,6 @@ public class ModRegistry {
             itemRegistryEvent.getRegistry().register(value);
             LOGGER.info("注册物品:"+value.getRegistryName().getPath()+"成功！");
         }
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public static void itemColors(ColorHandlerEvent.Item event) {
-        //event.getItemColors().register(new ModItemColor(), IModel);
     }
 
 

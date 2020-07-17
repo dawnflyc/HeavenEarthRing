@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "heavenearthring:item/item_model"
+    "layer0": "heavenearthring:item/item_model",
+    "tintindex": 0
   }
 }

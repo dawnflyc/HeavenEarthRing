@@ -1,5 +1,6 @@
 package com.github.dawnflyc.heavenearthring.item;
 
+import com.github.dawnflyc.heavenearthring.event.ModRegistry;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -23,14 +24,12 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-public class RandomDyeItem extends Item {
-
-    public static final Item ITEM = new RandomDyeItem(new Properties().group(ItemGroup.MISC));
+public class RandomDyeItem extends Item implements ModItem.ModItemRegistered{
 
     protected final Random random=new Random();
 
-    public RandomDyeItem(Properties properties) {
-        super(properties);
+    public RandomDyeItem() {
+        super(new Properties().group(ItemGroup.MISC));
         this.setRegistryName("random_dye");
     }
 

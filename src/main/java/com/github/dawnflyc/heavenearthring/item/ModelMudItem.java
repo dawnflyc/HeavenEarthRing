@@ -1,6 +1,7 @@
 package com.github.dawnflyc.heavenearthring.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.event.ModRegistry;
 import com.github.dawnflyc.heavenearthring.item.model.IModel;
 import com.github.dawnflyc.heavenearthring.item.model.ItemModelItem;
 import com.github.dawnflyc.heavenearthring.item.util.ModelMudBakedModel;
@@ -30,19 +31,14 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class ModelMudItem extends Item {
+public class ModelMudItem extends Item implements ModItem.ModItemRegistered{
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final ModelMudItem ITEM=new ModelMudItem(new Properties().group(ItemGroup.MISC));
-
-
-    public ModelMudItem(Properties properties) {
-        super(properties);
+    public ModelMudItem() {
+        super(new Properties().group(ItemGroup.MISC));
         this.setRegistryName(HeavenEarthRing.MOD_ID,"model_mud");
     }
-
-
 
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
@@ -102,7 +98,7 @@ public class ModelMudItem extends Item {
         protected ItemStack createModel(ItemStack itemStack,int color){
             IBakedModel bakedModel = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(itemStack, null, null);
             if ( bakedModel instanceof SimpleBakedModel){
-                ItemStack is=new ItemStack(ItemModelItem.ITEM,1);
+                ItemStack is=new ItemStack(ModRegistry.REG_ITEMS.get("item_model"),1);
                 CompoundNBT nbt= new CompoundNBT();
                 nbt.putString("id",itemStack.getItem().getRegistryName().toString());
                 nbt.putString("langkey",itemStack.getTranslationKey());

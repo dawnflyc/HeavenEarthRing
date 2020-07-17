@@ -1,6 +1,7 @@
 package com.github.dawnflyc.heavenearthring.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.event.ModRegistry;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
@@ -21,15 +22,12 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SpaceEssenceItem extends Item {
+public class SpaceEssenceItem extends Item implements ModItem.ModItemRegistered {
 
-
-    public SpaceEssenceItem(Properties properties) {
-        super(properties);
+    public SpaceEssenceItem() {
+        super(new Item.Properties().group(ItemGroup.MISC));
         this.setRegistryName(HeavenEarthRing.MOD_ID,"space_essence");
     }
-
-    public static final Item ITEM=new SpaceEssenceItem(new Item.Properties().group(ItemGroup.MISC));
 
     private static final Logger LOGGER = LogManager.getLogger();
 

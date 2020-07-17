@@ -1,5 +1,6 @@
 package com.github.dawnflyc.heavenearthring.recipe.anvil;
 
+import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.item.RandomDyeItem;
 import com.github.dawnflyc.heavenearthring.item.model.IModel;
 import net.minecraft.item.DyeColor;

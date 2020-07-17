@@ -2,14 +2,16 @@ package com.github.dawnflyc.heavenearthring;
 
 import com.github.dawnflyc.heavenearthring.client.ClientProxy;
 import com.github.dawnflyc.heavenearthring.common.CommonProxy;
-import com.github.dawnflyc.heavenearthring.item.util.ModItem;
+import com.github.dawnflyc.heavenearthring.item.ModItem;
 import com.github.dawnflyc.heavenearthring.recipe.anvil.ModAnvil;
+import com.github.dawnflyc.processtree.Tree;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,13 +43,14 @@ public class HeavenEarthRing {
 
     public HeavenEarthRing() {
         //注册物品
-        new ModItem();
-        new  ModAnvil();
+
+        Tree tree = new Tree("com.github.dawnflyc.heavenearthring");
+        tree.run();
+        new ModAnvil();
     }
 
     @SubscribeEvent
-    public static void CommonSetup(final FMLCommonSetupEvent event)
-    {
+    public static void CommonSetup(final FMLCommonSetupEvent event) {
 
     }
 

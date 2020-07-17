@@ -1,21 +1,24 @@
 package com.github.dawnflyc.heavenearthring.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.event.ModRegistry;
+import com.github.dawnflyc.heavenearthring.item.ModItem;
+import com.github.dawnflyc.processtree.Single;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 
-public class ItemModelItem extends Item implements IModel {
 
-    public static final ItemModelItem ITEM=new ItemModelItem(new Properties());
+public class ItemModelItem extends Item implements IModel, ModItem.ModItemRegistered {
 
-    public ItemModelItem(Properties properties) {
-        super(properties);
+    public ItemModelItem() {
+        super(new Properties());
         this.setRegistryName(HeavenEarthRing.MOD_ID,"item_model");
     }
 
 
-    @Override
+  /*  @Override
     public String getTranslationKey(ItemStack stack) {
         CompoundNBT nbt=stack.getTag();
         if (nbt!=null){
@@ -28,5 +31,10 @@ public class ItemModelItem extends Item implements IModel {
             }
         }
         return super.getTranslationKey(stack);
+    }*/
+
+    @Override
+    public ResourceLocation getResourceLocation() {
+        return this.getRegistryName();
     }
 }
