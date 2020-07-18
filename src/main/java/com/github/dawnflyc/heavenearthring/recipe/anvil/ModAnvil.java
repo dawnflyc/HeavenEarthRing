@@ -12,27 +12,6 @@ public class ModAnvil {
 
 
     public ModAnvil() {
-        //添加铁砧配方,继承附魔
-        AnvilEvent.AddAnvilRecipe(input -> {
-            if (input.getLeft().getItem() instanceof IModel || input.getRight().getItem() instanceof IModel) {
-                if (input.getRight().getTag() != null) {
-                    ItemStack result = input.getLeft().copy();
-                    ListNBT bookNbt = input.getRight().getTag().getList("StoredEnchantments", 10);
-                    ListNBT itemNbt = input.getRight().getTag().getList("Enchantments", 10);
-                    ListNBT nbt = itemNbt != null && itemNbt.size()>0 ? itemNbt.copy() : bookNbt != null && bookNbt.size()>0 ? bookNbt.copy() : null;
-                    if (nbt != null) {
-                        CompoundNBT nbt1=result.getTag();
-                        if (nbt1==null){
-                            nbt1=new CompoundNBT();
-                            result.setTag(nbt1);
-                        }
-                        nbt1.put("Enchantments", nbt);
-                        return new AnvilIO.AnvilOutput(result, 1);
-                    }
-                }
-            }
-            return null;
-        });
         //模型染色
         AnvilEvent.AddAnvilRecipe(input -> {
             if (input.getLeft().getItem() instanceof IModel){

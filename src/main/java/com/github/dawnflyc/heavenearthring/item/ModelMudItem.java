@@ -107,6 +107,7 @@ public class ModelMudItem extends Item implements ModItem.ModItemRegistered{
                 CompoundNBT compoundNBT=new CompoundNBT();
                 compoundNBT.put("item_model",nbt);
                 is.setTag(compoundNBT);
+                is.setDisplayName(itemStack.getDisplayName());
                 return is;
             }
             return null;
