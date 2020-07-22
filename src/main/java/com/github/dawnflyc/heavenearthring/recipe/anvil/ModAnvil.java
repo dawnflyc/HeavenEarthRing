@@ -3,7 +3,10 @@ package com.github.dawnflyc.heavenearthring.recipe.anvil;
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.item.RandomDyeItem;
 import com.github.dawnflyc.heavenearthring.item.model.IModel;
+import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -33,12 +36,31 @@ public class ModAnvil {
                                         color=cc;
                                     }
                                 }
+                            }else{
+                                return null;
                             }
                             ItemStack out=input.getLeft().copy();
                             model.putInt("color",color);
                             out.setTag(compoundNBT);
                             return new AnvilIO.AnvilOutput(out,1,1);
                         }
+                    }
+                }
+            }
+            return null;
+        });
+
+        AnvilEvent.AddAnvilRecipe(input -> {
+            if (input.getLeft().getItem() instanceof IModel && !(input.getRight().getItem() instanceof IModel) && !(input.getRight().getItem() instanceof RandomDyeItem)
+                    && !(input.getRight().getItem() instanceof BlockItem)){
+                CompoundNBT compoundNBT=input.getLeft().getTag().copy();
+                if (compoundNBT!=null){
+                    CompoundNBT modelitem=compoundNBT.getCompound("item_model");
+                    if (modelitem!=null){
+                        modelitem.putString("soulid",input.getRight().getItem().getRegistryName().toString());
+                        ItemStack itemStack=input.getLeft().copy();
+                        itemStack.setTag(compoundNBT);
+                        return new AnvilIO.AnvilOutput(itemStack,1,1);
                     }
                 }
             }

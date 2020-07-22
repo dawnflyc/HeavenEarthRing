@@ -18,6 +18,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -34,9 +36,38 @@ import java.util.Set;
 public class ItemModelItem extends Item implements IModel, ModItem.ModItemRegistered {
 
     public ItemModelItem() {
-        super(new Properties());
+        super(new Properties().maxStackSize(1));
         this.setRegistryName(HeavenEarthRing.MOD_ID,"item_model");
     }
+
+
+    @Override
+    public void onUse(World worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
+        Item item=getItemByNBT(stack);
+        if (item!=null){
+          item.onUse(worldIn, livingEntityIn, stack, count);
+        }
+        super.onUse(worldIn, livingEntityIn, stack, count);
+    }
+
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        Item item=getItemByNBT(playerIn.getHeldItem(handIn));
+        if (item!=null){
+            return item.onItemRightClick(worldIn, playerIn, handIn);
+        }
+        return super.onItemRightClick(worldIn, playerIn, handIn);
+    }
+
+    @Override
+    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+        Item item=getItemByNBT(stack);
+        if (item!=null){
+            return item.onItemUseFinish(stack, worldIn, entityLiving);
+        }
+        return super.onItemUseFinish(stack, worldIn, entityLiving);
+    }
+
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
@@ -132,7 +163,7 @@ public class ItemModelItem extends Item implements IModel, ModItem.ModItemRegist
         if (nbt!=null){
             CompoundNBT model=nbt.getCompound("item_model");
             if (model!=null){
-                String id=model.getString("id");
+                String id=model.getString("soulid");
                 if (id.trim().length()>0){
                     Item item= ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
                     if (!(item instanceof AirItem)){
