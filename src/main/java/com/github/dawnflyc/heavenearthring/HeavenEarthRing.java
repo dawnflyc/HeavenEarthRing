@@ -2,6 +2,7 @@ package com.github.dawnflyc.heavenearthring;
 
 import com.github.dawnflyc.heavenearthring.client.ClientProxy;
 import com.github.dawnflyc.heavenearthring.common.CommonProxy;
+import com.github.dawnflyc.heavenearthring.gui.ContainerTypeRegistry;
 import com.github.dawnflyc.heavenearthring.item.ModItem;
 import com.github.dawnflyc.heavenearthring.recipe.anvil.ModAnvil;
 import com.github.dawnflyc.processtree.Tree;
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +49,7 @@ public class HeavenEarthRing {
         Tree tree = new Tree("com.github.dawnflyc.heavenearthring");
         tree.run();
         new ModAnvil();
+        ContainerTypeRegistry.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     @SubscribeEvent

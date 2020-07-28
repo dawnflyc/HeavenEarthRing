@@ -2,6 +2,7 @@ package com.github.dawnflyc.heavenearthring.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.event.ModRegistry;
+import com.github.dawnflyc.heavenearthring.item.model.IModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
@@ -36,7 +37,7 @@ public class SpaceEssenceItem extends Item implements ModItem.ModItemRegistered 
         if (!worldIn.isRemote && handIn==Hand.MAIN_HAND){
             ItemStack main=playerIn.getHeldItem(Hand.MAIN_HAND);
             ItemStack off=playerIn.getHeldItem(Hand.OFF_HAND);
-            if (main.getItem() instanceof SpaceEssenceItem && !(off.getItem() instanceof BlockItem)){
+            if (main.getItem() instanceof SpaceEssenceItem && off.getItem() instanceof IModel){
                 if (main.getCount()>0 && off.getCount()>0){
                     ItemStack is=new ItemStack(off.getItem());
                    CompoundNBT nbt= off.getTag();

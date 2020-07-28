@@ -22,44 +22,32 @@ import javax.annotation.Nullable;
 
 public class ModelMudItemOverrideList extends ItemOverrideList {
 
-    protected final KeyInputListener.Key keyShift=KeyInputListener.getKey(GLFW.GLFW_KEY_LEFT_SHIFT);
-
     @Nullable
     @Override
     public IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
         if (stack.getItem() instanceof ItemModelItem) {
-            CompoundNBT nbt=stack.getTag();
-            if (nbt!=null){
-                CompoundNBT itemmodel=nbt.getCompound("item_model");
+            CompoundNBT nbt = stack.getTag();
+            if (nbt != null) {
+                CompoundNBT itemmodel = nbt.getCompound("item_model");
 
-                if (itemmodel!=null){
-                    String id=itemmodel.getString("id");
-                    String soulid=itemmodel.getString("soulid");
-                    boolean sneak=keyShift.repeated() || keyShift.pressed();
-                    if (sneak){
-                        SimpleBakedModel simpleBakedModel=getBakedModelById(soulid);
-                        if (simpleBakedModel!=null){
-                            return simpleBakedModel;
-                        }
-                    }else {
-                        SimpleBakedModel simpleBakedModel=getBakedModelById(id);
-                        if (simpleBakedModel!=null){
-                            return simpleBakedModel;
-                        }
+                if (itemmodel != null) {
+                    String id = itemmodel.getString("id");
+                    SimpleBakedModel simpleBakedModel = getBakedModelById(id);
+                    if (simpleBakedModel != null) {
+                        return simpleBakedModel;
                     }
-
                 }
             }
         }
         return model;
     }
 
-    protected  SimpleBakedModel getBakedModelById(String id){
+    protected SimpleBakedModel getBakedModelById(String id) {
         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
-        if (item!=null && item!= Items.AIR){
+        if (item != null && item != Items.AIR) {
             Minecraft minecraft = Minecraft.getInstance();
             IBakedModel bakedModel = minecraft.getItemRenderer().getItemModelWithOverrides(new ItemStack(item), null, null);
-            if (bakedModel instanceof SimpleBakedModel){
+            if (bakedModel instanceof SimpleBakedModel) {
                 return (SimpleBakedModel) bakedModel;
             }
         }

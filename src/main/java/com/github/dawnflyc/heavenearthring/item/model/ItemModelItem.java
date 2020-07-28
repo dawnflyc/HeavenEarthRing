@@ -2,6 +2,7 @@ package com.github.dawnflyc.heavenearthring.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.event.ModRegistry;
+import com.github.dawnflyc.heavenearthring.gui.ModelContainerProvider;
 import com.github.dawnflyc.heavenearthring.item.ModItem;
 import com.github.dawnflyc.processtree.Single;
 import com.google.common.collect.Multimap;
@@ -14,17 +15,24 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.minecart.ChestMinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -52,9 +60,16 @@ public class ItemModelItem extends Item implements IModel, ModItem.ModItemRegist
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        Item item=getItemByNBT(playerIn.getHeldItem(handIn));
-        if (item!=null){
-            return item.onItemRightClick(worldIn, playerIn, handIn);
+        CompoundNBT nbt=playerIn.getHeldItem(handIn).getTag();
+        if (nbt!=null){
+            if (!worldIn.isRemote && nbt.get("Items")!=null){
+            NetworkHooks.openGui((ServerPlayerEntity) playerIn, new ModelContainerProvider(playerIn.getHeldItem(handIn)));
+            }else {
+                Item item = getItemByNBT(playerIn.getHeldItem(handIn));
+                if (item != null) {
+                    return item.onItemRightClick(worldIn, playerIn, handIn);
+                }
+            }
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
