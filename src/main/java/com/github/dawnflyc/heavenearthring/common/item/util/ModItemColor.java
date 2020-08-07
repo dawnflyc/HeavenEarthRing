@@ -1,5 +1,7 @@
 package com.github.dawnflyc.heavenearthring.common.item.util;
 
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.item.model.ModModel;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemStack;
@@ -15,18 +17,12 @@ import net.minecraftforge.fml.common.Mod;
 public class ModItemColor implements IItemColor {
 
     @Override
-    public int getColor(ItemStack p_getColor_1_, int p_getColor_2_) {
-        CompoundNBT nbt = p_getColor_1_.getTag();
-        if (nbt != null) {
-            CompoundNBT model = nbt.getCompound("item_model");
-            if (model != null) {
-                int color = model.getInt("color");
-                if (color != 0) {
-                    return color;
-                }
-            }
+    public int getColor(ItemStack itemstack, int color) {
+        IModelRenderHandler modelRenderHandler=itemstack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
+        if (modelRenderHandler.getRenderColor()!=null){
+            return modelRenderHandler.getRenderColor();
         }
-        return p_getColor_2_;
+        return color;
     }
 
     @SubscribeEvent

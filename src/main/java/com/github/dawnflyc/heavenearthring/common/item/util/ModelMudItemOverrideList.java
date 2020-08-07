@@ -1,6 +1,8 @@
 package com.github.dawnflyc.heavenearthring.common.item.util;
 
-import com.github.dawnflyc.heavenearthring.common.item.model.ItemModelItem;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemOverrideList;
@@ -21,25 +23,20 @@ public class ModelMudItemOverrideList extends ItemOverrideList {
     @Nullable
     @Override
     public IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
-        if (stack.getItem() instanceof ItemModelItem) {
-            CompoundNBT nbt = stack.getTag();
-            if (nbt != null) {
-                CompoundNBT itemmodel = nbt.getCompound("item_model");
-
-                if (itemmodel != null) {
-                    String id = itemmodel.getString("id");
-                    SimpleBakedModel simpleBakedModel = getBakedModelById(id);
-                    if (simpleBakedModel != null) {
-                        return simpleBakedModel;
-                    }
+        if (stack.getItem() instanceof IItemModel) {
+            IModelRenderHandler modelRenderHandler=stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
+            if (modelRenderHandler.getRenderResourceLocation()!=null) {
+                SimpleBakedModel simpleBakedModel = fineBakedModel(modelRenderHandler.getRenderResourceLocation());
+                if (simpleBakedModel != null) {
+                    return simpleBakedModel;
                 }
             }
         }
         return model;
     }
 
-    protected SimpleBakedModel getBakedModelById(String id) {
-        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
+    protected SimpleBakedModel fineBakedModel(ResourceLocation resourceLocation) {
+        Item item = ForgeRegistries.ITEMS.getValue(resourceLocation);
         if (item != null && item != Items.AIR) {
             Minecraft minecraft = Minecraft.getInstance();
             IBakedModel bakedModel = minecraft.getItemRenderer().getItemModelWithOverrides(new ItemStack(item), null, null);

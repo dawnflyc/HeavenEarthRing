@@ -6,12 +6,12 @@ import com.github.dawnflyc.processtree.TreeScan;
 import net.minecraftforge.fml.common.Mod;
 
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-@TreeScan(method = ICapability.class)
-public class ModCapability implements ITreeHandler<ICapability> {
+//@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+public class ModCapability {
 
-    @Override
-    public void handle(Result<ICapability> result) {
-        result.build().forEach(iCapability -> iCapability.registry());
+    public ModCapability() {
+
+        new CapabilityModelRenderHandler().registry();
+        new CapabilityModelSoulHandler().registry();
     }
 }

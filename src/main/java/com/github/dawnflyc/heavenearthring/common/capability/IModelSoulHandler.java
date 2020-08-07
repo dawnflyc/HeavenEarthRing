@@ -9,9 +9,15 @@ import net.minecraftforge.common.util.INBTSerializable;
  */
 public interface IModelSoulHandler extends INBTSerializable<INBT> {
     /**
-     * 灵魂资源
+     * 获取灵魂资源
      *
      * @return
      */
     ResourceLocation getSoulResourceLocation();
+
+    /**
+     * 修改灵魂资源
+     * @param resourceLocation
+     */
+    void getSoulResourceLocation(ResourceLocation resourceLocation);
 }

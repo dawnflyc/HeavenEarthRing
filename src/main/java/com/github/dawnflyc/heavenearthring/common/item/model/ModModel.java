@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-//@TreeScan(recursive = true, priority = -10, method = IItemModel.class)
+@TreeScan(recursive = true, priority = -10, method = IItemModel.class)
 public class ModModel implements ITreeHandler<IItemModel> {
 
     public final static List<IItemModel> LIST = new ArrayList<>();

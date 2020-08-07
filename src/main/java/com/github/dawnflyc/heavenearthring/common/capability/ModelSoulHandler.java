@@ -23,6 +23,11 @@ public class ModelSoulHandler implements IModelSoulHandler {
     }
 
     @Override
+    public void getSoulResourceLocation(ResourceLocation resourceLocation) {
+        this.soulId=resourceLocation.toString();
+    }
+
+    @Override
     public INBT serializeNBT() {
         CompoundNBT CompoundNBT = new CompoundNBT();
         CompoundNBT.putString("soul_id", this.soulId);

@@ -2,6 +2,7 @@ package com.github.dawnflyc.heavenearthring;
 
 import com.github.dawnflyc.heavenearthring.client.ClientProxy;
 import com.github.dawnflyc.heavenearthring.common.CommonProxy;
+import com.github.dawnflyc.heavenearthring.common.capability.ModCapability;
 import com.github.dawnflyc.heavenearthring.common.gui.ContainerTypeRegistry;
 import com.github.dawnflyc.heavenearthring.common.recipe.anvil.ModAnvil;
 import com.github.dawnflyc.processtree.Tree;
@@ -51,7 +52,7 @@ public class HeavenEarthRing {
 
     @SubscribeEvent
     public static void CommonSetup(final FMLCommonSetupEvent event) {
-
+        new ModCapability();
     }
 
     @SubscribeEvent

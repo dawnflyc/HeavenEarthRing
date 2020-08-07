@@ -1,6 +1,8 @@
 package com.github.dawnflyc.heavenearthring.common.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -93,7 +95,10 @@ public class ModelMudItem extends Item implements ModItem.ModItemRegistered {
         IBakedModel bakedModel = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(itemStack, null, null);
         if (bakedModel instanceof SimpleBakedModel) {
             ItemStack is = new ItemStack(ModItem.REG_ITEMS.get("item_model"), 1);
-            is.setDisplayName(itemStack.getDisplayName());
+            IModelRenderHandler modelRenderHandler= is.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new  NullPointerException());
+            modelRenderHandler.setRenderResourceLocation(itemStack.getItem().getRegistryName());
+            int itemColor=Minecraft.getInstance().getItemColors().getColor(itemStack,0);
+            modelRenderHandler.setRenderColor(itemColor);
             return is;
         }
         return null;

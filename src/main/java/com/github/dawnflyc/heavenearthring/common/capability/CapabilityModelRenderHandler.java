@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 public class CapabilityModelRenderHandler implements ICapability {
 
     @CapabilityInject(IModelRenderHandler.class)
-    public static Capability<IModelRenderHandler> CAPABILITY;
+    public static Capability<IModelRenderHandler> CAPABILITY=null;
 
     @Override
     public void registry() {
@@ -19,13 +19,12 @@ public class CapabilityModelRenderHandler implements ICapability {
             @Nullable
             @Override
             public INBT writeNBT(Capability<IModelRenderHandler> capability, IModelRenderHandler instance, Direction side) {
-                return instance.serializeNBT();
+                return null;
             }
 
             @Override
             public void readNBT(Capability<IModelRenderHandler> capability, IModelRenderHandler instance, Direction side, INBT nbt) {
-                instance.deserializeNBT(nbt);
             }
-        }, ModelRenderHandler::new);
+        }, () -> null);
     }
 }

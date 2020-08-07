@@ -9,16 +9,30 @@ import net.minecraftforge.common.util.INBTSerializable;
  */
 public interface IModelRenderHandler extends INBTSerializable<INBT> {
     /**
-     * 渲染资源
+     * 获取渲染资源
      *
      * @return
      */
     ResourceLocation getRenderResourceLocation();
 
     /**
-     * 渲染颜色
+     * 修改渲染资源
+     * @param renderResourceLocation
+     */
+    void setRenderResourceLocation(ResourceLocation renderResourceLocation);
+
+    /**
+     * 获取渲染颜色
      *
      * @return
      */
     Integer getRenderColor();
+
+    /**
+     * 修改渲染颜色
+     * @param color
+     */
+    void setRenderColor(Integer color);
+
+
 }

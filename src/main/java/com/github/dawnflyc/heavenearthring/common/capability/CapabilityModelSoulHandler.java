@@ -17,15 +17,13 @@ public class CapabilityModelSoulHandler implements ICapability {
     public void registry() {
         CapabilityManager.INSTANCE.register(IModelSoulHandler.class, new Capability.IStorage<IModelSoulHandler>() {
             @Nullable
-            @Override
             public INBT writeNBT(Capability<IModelSoulHandler> capability, IModelSoulHandler instance, Direction side) {
-                return instance.serializeNBT();
+                return null;
             }
 
             @Override
             public void readNBT(Capability<IModelSoulHandler> capability, IModelSoulHandler instance, Direction side, INBT nbt) {
-                instance.deserializeNBT(nbt);
             }
-        }, ModelSoulHandler::new);
+        }, () -> null);
     }
 }
