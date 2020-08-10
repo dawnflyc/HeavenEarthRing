@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 public class CapabilityModelRenderHandler implements ICapability {
 
     @CapabilityInject(IModelRenderHandler.class)
-    public static Capability<IModelRenderHandler> CAPABILITY=null;
+    public static Capability<IModelRenderHandler> CAPABILITY = null;
 
     @Override
     public void registry() {

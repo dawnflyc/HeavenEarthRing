@@ -1,8 +1,13 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelSoulHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.EnchantmentScreen;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +25,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -28,8 +35,9 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class SoulModelItem extends Item implements IItemModel {
+public class SoulModelItem extends ItemModelItem {
 
 
     public SoulModelItem() {
@@ -37,9 +45,13 @@ public class SoulModelItem extends Item implements IItemModel {
         this.setRegistryName(HeavenEarthRing.MOD_ID, "item_soul_model");
     }
 
+    public SoulModelItem(Properties properties) {
+        super(properties);
+    }
+
     @Override
     public void onUse(World worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             item.onUse(worldIn, livingEntityIn, stack, count);
         }
@@ -59,7 +71,7 @@ public class SoulModelItem extends Item implements IItemModel {
                         buf.writeBoolean(handIn == Hand.MAIN_HAND);
                     });
                 } else {
-                    Item item = getItemByNBT(playerIn.getHeldItem(handIn));
+                    Item item = findItem(playerIn.getHeldItem(handIn));
                     if (item != null) {
                         return item.onItemRightClick(worldIn, playerIn, handIn);
                     }
@@ -71,7 +83,7 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.onItemUseFinish(stack, worldIn, entityLiving);
         }
@@ -81,7 +93,7 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.getDestroySpeed(stack, state);
         }
@@ -105,7 +117,7 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.getMaxDamage(stack);
         }
@@ -114,7 +126,7 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.hitEntity(stack, target, attacker);
         }
@@ -123,7 +135,7 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.canApplyAtEnchantingTable(new ItemStack(item), enchantment);
         }
@@ -138,7 +150,7 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public Rarity getRarity(ItemStack stack) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.getRarity(stack);
         }
@@ -147,7 +159,7 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public boolean isEnchantable(ItemStack stack) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.isEnchantable(stack);
         }
@@ -156,34 +168,23 @@ public class SoulModelItem extends Item implements IItemModel {
 
     @Override
     public int getHarvestLevel(ItemStack stack, ToolType tool, @Nullable PlayerEntity player, @Nullable BlockState blockState) {
-        Item item = getItemByNBT(stack);
+        Item item = findItem(stack);
         if (item != null) {
             return item.getHarvestLevel(stack, tool, player, blockState);
         }
         return super.getHarvestLevel(stack, tool, player, blockState);
     }
 
-    @Override
-    public boolean canEquip(ItemStack stack, EquipmentSlotType armorType, Entity entity) {
-        return true;
-    }
 
-    public Item getItemByNBT(ItemStack itemStack) {
-        CompoundNBT nbt = itemStack.getTag();
-        if (nbt != null) {
-            CompoundNBT model = nbt.getCompound("item_model");
-            if (model != null) {
-                String id = model.getString("soulid");
-                if (id.trim().length() > 0) {
-                    Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
-                    if (!(item instanceof AirItem)) {
-                        return item;
-                    }
-                }
-            }
+    public Item findItem(ItemStack itemStack) {
+        IModelSoulHandler modelSoulHandler = itemStack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+        Item item = ForgeRegistries.ITEMS.getValue(modelSoulHandler.getSoulResourceLocation());
+        if (!(item instanceof AirItem)) {
+            return item;
         }
         return null;
     }
+
 
     @Override
     public ResourceLocation getResourceLocation() {

@@ -23,8 +23,8 @@ public class ModelSoulHandler implements IModelSoulHandler {
     }
 
     @Override
-    public void getSoulResourceLocation(ResourceLocation resourceLocation) {
-        this.soulId=resourceLocation.toString();
+    public void setSoulResourceLocation(ResourceLocation resourceLocation) {
+        this.soulId = resourceLocation.toString();
     }
 
     @Override

@@ -11,5 +11,4 @@ public interface IItemModel extends IItemProvider, ModItem.ModItemRegistered {
 
     ResourceLocation getResourceLocation();
 
-
 }

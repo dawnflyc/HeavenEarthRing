@@ -17,7 +17,8 @@ public interface IModelSoulHandler extends INBTSerializable<INBT> {
 
     /**
      * 修改灵魂资源
+     *
      * @param resourceLocation
      */
-    void getSoulResourceLocation(ResourceLocation resourceLocation);
+    void setSoulResourceLocation(ResourceLocation resourceLocation);
 }

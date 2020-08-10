@@ -11,7 +11,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -24,8 +23,8 @@ public class ModelMudItemOverrideList extends ItemOverrideList {
     @Override
     public IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
         if (stack.getItem() instanceof IItemModel) {
-            IModelRenderHandler modelRenderHandler=stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
-            if (modelRenderHandler.getRenderResourceLocation()!=null) {
+            IModelRenderHandler modelRenderHandler = stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
+            if (modelRenderHandler.getRenderResourceLocation() != null) {
                 SimpleBakedModel simpleBakedModel = fineBakedModel(modelRenderHandler.getRenderResourceLocation());
                 if (simpleBakedModel != null) {
                     return simpleBakedModel;

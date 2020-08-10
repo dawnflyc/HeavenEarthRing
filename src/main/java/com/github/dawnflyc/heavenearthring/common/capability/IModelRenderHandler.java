@@ -17,6 +17,7 @@ public interface IModelRenderHandler extends INBTSerializable<INBT> {
 
     /**
      * 修改渲染资源
+     *
      * @param renderResourceLocation
      */
     void setRenderResourceLocation(ResourceLocation renderResourceLocation);
@@ -30,6 +31,7 @@ public interface IModelRenderHandler extends INBTSerializable<INBT> {
 
     /**
      * 修改渲染颜色
+     *
      * @param color
      */
     void setRenderColor(Integer color);

@@ -1,6 +1,8 @@
 package com.github.dawnflyc.heavenearthring.common.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +16,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,12 +26,12 @@ import java.util.List;
 
 public class SpaceEssenceItem extends Item implements ModItem.ModItemRegistered {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public SpaceEssenceItem() {
         super(new Item.Properties().group(ItemGroup.MISC));
         this.setRegistryName(HeavenEarthRing.MOD_ID, "space_essence");
     }
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
@@ -36,13 +40,16 @@ public class SpaceEssenceItem extends Item implements ModItem.ModItemRegistered 
             ItemStack off = playerIn.getHeldItem(Hand.OFF_HAND);
             if (main.getItem() instanceof SpaceEssenceItem && off.getItem() instanceof IItemModel) {
                 if (main.getCount() > 0 && off.getCount() > 0) {
-                    ItemStack is = new ItemStack(off.getItem());
+                    ItemStack itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_gui_model"));
+                    IModelRenderHandler modelRenderHandler=itemStack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+                    IModelRenderHandler modelRenderHandler1=off.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+                    modelRenderHandler.setRenderResourceLocation(modelRenderHandler1.getRenderResourceLocation());
+                    modelRenderHandler.setRenderColor(modelRenderHandler1.getRenderColor());
                     if (!playerIn.isCreative()) {
                         main.setCount(main.getCount() - 1);
                         off.setCount(off.getCount() - 1);
                     }
-                    playerIn.addItemStackToInventory(is);
-                    playerIn.addItemStackToInventory(is);
+                    playerIn.addItemStackToInventory(itemStack);
                     return ActionResult.resultSuccess(main);
                 }
             }

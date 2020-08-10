@@ -1,9 +1,9 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.ModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelSoulHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.ModelSoulHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -19,20 +19,20 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
-public class RenderHandlerProvider implements ICapabilitySerializable {
+public class SoulHandlerProvider implements ICapabilitySerializable {
 
-    public static final ResourceLocation RANDER = new ResourceLocation(HeavenEarthRing.MOD_ID, "render");
+    public static final ResourceLocation SOUL = new ResourceLocation(HeavenEarthRing.MOD_ID, "soul");
 
-    private final LazyOptional<IModelRenderHandler> opt;
+    private final LazyOptional<IModelSoulHandler> opt;
 
-    public RenderHandlerProvider() {
-        this.opt = LazyOptional.of(ModelRenderHandler::new);
+    public SoulHandlerProvider() {
+        this.opt = LazyOptional.of(ModelSoulHandler::new);
     }
 
     @SubscribeEvent
     public static void attachCapability(AttachCapabilitiesEvent<ItemStack> event) {
-        if (event.getObject().getItem() instanceof IItemModel) {
-            event.addCapability(RANDER, new RenderHandlerProvider());
+        if (event.getObject().getItem() instanceof SoulModelItem) {
+            event.addCapability(SOUL, new SoulHandlerProvider());
         }
     }
 
@@ -45,16 +45,17 @@ public class RenderHandlerProvider implements ICapabilitySerializable {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
-        return CapabilityModelRenderHandler.CAPABILITY.orEmpty(cap, opt);
+        return CapabilityModelSoulHandler.CAPABILITY.orEmpty(cap, opt);
     }
 
     @Override
     public INBT serializeNBT() {
-        return CapabilityModelRenderHandler.CAPABILITY.orEmpty(CapabilityModelRenderHandler.CAPABILITY, opt).orElseThrow(NullPointerException::new).serializeNBT();
+        return CapabilityModelSoulHandler.CAPABILITY.orEmpty(CapabilityModelSoulHandler.CAPABILITY, opt).orElseThrow(NullPointerException::new).serializeNBT();
     }
 
     @Override
     public void deserializeNBT(INBT nbt) {
-        CapabilityModelRenderHandler.CAPABILITY.orEmpty(CapabilityModelRenderHandler.CAPABILITY, opt).orElseThrow(NullPointerException::new).deserializeNBT(nbt);
+        CapabilityModelSoulHandler.CAPABILITY.orEmpty(CapabilityModelSoulHandler.CAPABILITY, opt).orElseThrow(NullPointerException::new).deserializeNBT(nbt);
     }
+
 }

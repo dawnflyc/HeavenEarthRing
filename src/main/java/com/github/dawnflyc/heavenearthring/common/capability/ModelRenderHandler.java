@@ -27,7 +27,7 @@ public class ModelRenderHandler implements IModelRenderHandler {
 
     @Override
     public void setRenderResourceLocation(ResourceLocation renderResourceLocation) {
-        this.renderId=renderResourceLocation.toString();
+        this.renderId = renderResourceLocation.toString();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ModelRenderHandler implements IModelRenderHandler {
 
     @Override
     public void setRenderColor(Integer color) {
-        this.renderColor=color;
+        this.renderColor = color;
     }
 
     @Override

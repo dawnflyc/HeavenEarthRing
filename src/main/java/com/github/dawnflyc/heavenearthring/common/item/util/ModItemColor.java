@@ -5,7 +5,6 @@ import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler
 import com.github.dawnflyc.heavenearthring.common.item.model.ModModel;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,15 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItemColor implements IItemColor {
 
-    @Override
-    public int getColor(ItemStack itemstack, int color) {
-        IModelRenderHandler modelRenderHandler=itemstack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
-        if (modelRenderHandler.getRenderColor()!=null){
-            return modelRenderHandler.getRenderColor();
-        }
-        return color;
-    }
-
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void itemColors(ColorHandlerEvent.Item event) {
@@ -33,5 +23,14 @@ public class ModItemColor implements IItemColor {
             iItemProviders[i] = ModModel.LIST.get(i);
         }
         event.getItemColors().register(new ModItemColor(), iItemProviders);
+    }
+
+    @Override
+    public int getColor(ItemStack itemstack, int color) {
+        IModelRenderHandler modelRenderHandler = itemstack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
+        if (modelRenderHandler.getRenderColor() != null) {
+            return modelRenderHandler.getRenderColor();
+        }
+        return color;
     }
 }

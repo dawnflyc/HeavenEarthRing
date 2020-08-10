@@ -26,15 +26,6 @@ public class ModModel implements ITreeHandler<IItemModel> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Override
-    public void handle(Result<IItemModel> result) {
-        result.build().forEach(iModel -> {
-            LIST.add(iModel);
-            LOGGER.info("模型染色注册" + iModel.getClass().getName() + ":" + iModel.hashCode());
-        });
-
-    }
-
     @SubscribeEvent
     public static void onModelBaked(ModelBakeEvent event) {
         LIST.forEach(iModel -> {
@@ -50,6 +41,15 @@ public class ModModel implements ITreeHandler<IItemModel> {
                 event.getModelRegistry().put(location, modelMudBakedModel);
             }
         });
+    }
+
+    @Override
+    public void handle(Result<IItemModel> result) {
+        result.build().forEach(iModel -> {
+            LIST.add(iModel);
+            LOGGER.info("模型染色注册" + iModel.getClass().getName() + ":" + iModel.hashCode());
+        });
+
     }
 
 

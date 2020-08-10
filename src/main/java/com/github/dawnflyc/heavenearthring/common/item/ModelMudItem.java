@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.model.SimpleBakedModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -95,9 +94,9 @@ public class ModelMudItem extends Item implements ModItem.ModItemRegistered {
         IBakedModel bakedModel = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(itemStack, null, null);
         if (bakedModel instanceof SimpleBakedModel) {
             ItemStack is = new ItemStack(ModItem.REG_ITEMS.get("item_model"), 1);
-            IModelRenderHandler modelRenderHandler= is.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new  NullPointerException());
+            IModelRenderHandler modelRenderHandler = is.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
             modelRenderHandler.setRenderResourceLocation(itemStack.getItem().getRegistryName());
-            int itemColor=Minecraft.getInstance().getItemColors().getColor(itemStack,0);
+            int itemColor = Minecraft.getInstance().getItemColors().getColor(itemStack, 0);
             modelRenderHandler.setRenderColor(itemColor);
             return is;
         }

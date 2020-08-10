@@ -9,7 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 
 public class GuiModelContainer extends ContainerScreen<ModelContainer> {
 
-    private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_27.png");
+    private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
 
     public GuiModelContainer(ModelContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
