@@ -3,9 +3,12 @@ package com.github.dawnflyc.heavenearthring.common.gui;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -50,31 +53,38 @@ public class ModelContainer extends Container {
         return true;
     }
 
-    public static class InvProvider implements ICapabilitySerializable<INBT> {
-
-        private final IItemHandler inv = new ItemStackHandler(27) {
-            @Override
-            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                IItemModel model = stack.getItem() instanceof IItemModel ? (IItemModel) stack.getItem() : null;
-                return model == null;
+    @Override
+    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.inventorySlots.get(index);
+        ItemStack itemstack1=slot.getStack();
+        if (slot != null && slot.getHasStack() && !(this.itemStack.isItemEqual(itemstack1))) {
+            itemstack = itemstack1.copy();
+            if (index < 27) {
+                if (!this.mergeItemStack(itemstack1, 27, this.inventorySlots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.mergeItemStack(itemstack1, 0, 27, false)) {
+                return ItemStack.EMPTY;
             }
-        };
-        private final LazyOptional<IItemHandler> opt = LazyOptional.of(() -> inv);
 
-        @Nonnull
-        @Override
-        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, opt);
+            if (itemstack1.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
+                slot.onSlotChanged();
+            }
         }
 
-        @Override
-        public INBT serializeNBT() {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inv, null);
-        }
+        return itemstack;
+    }
 
-        @Override
-        public void deserializeNBT(INBT nbt) {
-            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inv, null, nbt);
+
+
+    @Override
+    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
+        if (this.itemStack.isItemEqual(this.inventorySlots.get(slotId).getStack())){
+            return ItemStack.EMPTY;
         }
+        return super.slotClick(slotId, dragType, clickTypeIn, player);
     }
 }

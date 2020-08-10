@@ -1,9 +1,13 @@
-{"item.heavenearthring.space_essence":"空间精髓",
+{
+  "item.heavenearthring.space_essence":"空间精髓",
   "item.heavenearthring.item_model": "物品模型",
   "item.heavenearthring.model_mud": "模型泥",
   "item.heavenearthring.random_dye": "随机颜色染料",
   "tooltip.heavenearthring.item.space_essence": "此物品放主手，任意非方块物品放副手，即可赋予空间力量（库存）,会消耗物品小心使用！",
   "tooltip.heavenearthring.item.model_mud": "此物品放主手任意物品放副手，或者直接右击方块，即可制作物品模型(复杂模型无法制作，比如头颅、箱子)，不会消耗物品。",
   "tooltip.heavenearthring.item.random_dye": "染料可以在铁砧里给模型染色，此物品为随机颜色染料（仅限于模型染色），颜色不满意可以重新合成一下。",
-  "tooltip.heavenearthring.enchantment_gui": "shift左击模型，数据将会消失！！！"
+  "tooltip.heavenearthring.enchantment_gui": "shift左击模型，数据将会消失！！！",
+  "tooltip.heavenearthring.item.item_model_info_tip": "按住shift查看模型数据。",
+  "tooltip.heavenearthring.item.item_model_info": "模型物品: %1$s ， 颜色: %2$s ",
+  "tooltip.heavenearthring.item.item_model_soul_info": "模型灵魂: %s"
 }

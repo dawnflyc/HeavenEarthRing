@@ -1,7 +1,9 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelSoulHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
 import net.minecraft.block.BlockState;
@@ -185,6 +187,14 @@ public class SoulModelItem extends ItemModelItem {
         return null;
     }
 
+    @Override
+    public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.modelInformation(stack, worldIn, tooltip, flagIn);
+        IModelSoulHandler modelSoulHandler= stack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+        Item item = ForgeRegistries.ITEMS.getValue(modelSoulHandler.getSoulResourceLocation());
+        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_info",item.getName().getString()));
+
+    }
 
     @Override
     public ResourceLocation getResourceLocation() {

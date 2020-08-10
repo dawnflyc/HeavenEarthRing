@@ -1,6 +1,9 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.ModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
@@ -33,6 +36,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -64,7 +68,12 @@ public class GuiModelItem extends ItemModelItem {
         private final LazyOptional<IItemHandler> opt;
 
         private ItemStackHanlerProvider() {
-            opt = LazyOptional.of(() -> new InvWrapper(new Inventory(27)));
+            opt = LazyOptional.of(() -> new InvWrapper(new Inventory(27)){
+                @Override
+                public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                    return super.isItemValid(slot, stack) && !(stack.getItem() instanceof GuiModelItem);
+                }
+            });
         }
 
         @Override
