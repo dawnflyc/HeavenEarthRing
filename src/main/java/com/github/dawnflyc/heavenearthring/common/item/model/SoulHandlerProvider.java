@@ -18,6 +18,9 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * 模型灵魂能力提供者
+ */
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
 public class SoulHandlerProvider implements ICapabilitySerializable {
 

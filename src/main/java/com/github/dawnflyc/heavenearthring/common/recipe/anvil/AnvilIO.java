@@ -4,6 +4,9 @@ import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
+/**
+ * 铁砧输入输出
+ */
 public class AnvilIO {
 
     /**

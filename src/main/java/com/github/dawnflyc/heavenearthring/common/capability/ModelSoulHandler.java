@@ -5,6 +5,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * 模型灵魂能力实现类
+ */
 public class ModelSoulHandler implements IModelSoulHandler {
 
     protected String soulId;

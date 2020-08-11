@@ -45,7 +45,7 @@ public class ModAnvil {
             }
             return null;
         });
-
+        //灵魂
         AnvilEvent.AddAnvilRecipe(input -> {
             if (input.getLeft().getItem() instanceof IItemModel && !(input.getRight().getItem() instanceof IItemModel) && !(input.getRight().getItem() instanceof RandomDyeItem)
                     && !(input.getRight().getItem() instanceof BlockItem)) {
@@ -56,6 +56,7 @@ public class ModAnvil {
                 modelRenderHandler.setRenderResourceLocation(modelRenderHandler1.getRenderResourceLocation());
                 IModelSoulHandler modelSoulHandler = itemStack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
                 modelSoulHandler.setSoulResourceLocation(input.getRight().getItem().getRegistryName());
+                itemStack.setTag(input.getRight().getTag());
                 return new AnvilIO.AnvilOutput(itemStack, 1, 1);
             }
             return null;

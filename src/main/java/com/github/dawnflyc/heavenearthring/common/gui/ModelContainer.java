@@ -19,6 +19,9 @@ import net.minecraftforge.items.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * gui模型的服务端gui
+ */
 public class ModelContainer extends Container {
 
     protected PlayerInventory playerInventory;

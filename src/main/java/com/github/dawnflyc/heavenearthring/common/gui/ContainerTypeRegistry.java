@@ -9,6 +9,9 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+/**
+ * gui模型的gui类型注册
+ */
 public class ContainerTypeRegistry {
 
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, HeavenEarthRing.MOD_ID);

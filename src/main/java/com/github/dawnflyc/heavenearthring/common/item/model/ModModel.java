@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 模型注册器
+ */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 @TreeScan(recursive = true, priority = -10, method = IItemModel.class)
 public class ModModel implements ITreeHandler<IItemModel> {

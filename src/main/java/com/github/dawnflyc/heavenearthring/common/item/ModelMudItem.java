@@ -26,6 +26,9 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * 用于制作模型的模型泥
+ */
 public class ModelMudItem extends Item implements ModItem.ModItemRegistered {
 
     private static final Logger LOGGER = LogManager.getLogger();

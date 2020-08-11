@@ -5,6 +5,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * 模型渲染能力实现类
+ */
 public class ModelRenderHandler implements IModelRenderHandler {
 
     protected String renderId;

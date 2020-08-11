@@ -19,6 +19,9 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 随机染料物品
+ */
 public class RandomDyeItem extends Item implements ModItem.ModItemRegistered {
 
     protected final Random random = new Random();

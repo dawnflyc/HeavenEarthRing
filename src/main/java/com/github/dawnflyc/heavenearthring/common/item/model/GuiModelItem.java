@@ -42,6 +42,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * gui模型物品
+ */
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
 public class GuiModelItem extends ItemModelItem {
 

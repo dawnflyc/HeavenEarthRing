@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 物品注册器
+ */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 @TreeScan(priority = 0, method = ModItem.ModItemRegistered.class)
 public class ModItem implements ITreeHandler<Item> {

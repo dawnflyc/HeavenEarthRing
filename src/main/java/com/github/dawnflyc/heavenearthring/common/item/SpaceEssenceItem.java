@@ -24,6 +24,9 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * 空间精髓物品
+ */
 public class SpaceEssenceItem extends Item implements ModItem.ModItemRegistered {
 
     private static final Logger LOGGER = LogManager.getLogger();

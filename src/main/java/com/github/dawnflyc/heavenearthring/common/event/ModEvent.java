@@ -5,6 +5,9 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * 通用事件类
+ */
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
 public class ModEvent {
 

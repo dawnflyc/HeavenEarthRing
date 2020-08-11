@@ -7,6 +7,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
+/**
+ * 模型gui的客户端界面
+ */
 public class GuiModelContainer extends ContainerScreen<ModelContainer> {
 
     private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");

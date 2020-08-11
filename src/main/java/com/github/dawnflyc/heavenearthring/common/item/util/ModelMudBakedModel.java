@@ -13,6 +13,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 模型物品的烘焙渲染模型
+ */
 public class ModelMudBakedModel implements IBakedModel {
 
     private final IBakedModel existingModel;

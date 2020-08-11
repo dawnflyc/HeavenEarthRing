@@ -1,14 +1,10 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelSoulHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -18,12 +14,10 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.AirItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +32,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
 
 public class SoulModelItem extends ItemModelItem {
 
@@ -51,6 +46,7 @@ public class SoulModelItem extends ItemModelItem {
         super(properties);
     }
 
+
     @Override
     public void onUse(World worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
         Item item = findItem(stack);
@@ -60,29 +56,177 @@ public class SoulModelItem extends ItemModelItem {
         super.onUse(worldIn, livingEntityIn, stack, count);
     }
 
+    /**
+     * 玩家右击
+     */
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        CompoundNBT nbt = playerIn.getHeldItem(handIn).getTag();
-        if (nbt != null) {
-            if (!worldIn.isRemote) {
-                ItemStack itemStack = playerIn.getHeldItem(handIn);
-                IItemHandlerModifiable flowerBagInv = (IItemHandlerModifiable) itemStack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
-                if (flowerBagInv != null) {
-                    INamedContainerProvider container = new SimpleNamedContainerProvider((w, p, pl) -> new ModelContainer(w, p, itemStack), itemStack.getDisplayName());
-                    NetworkHooks.openGui((ServerPlayerEntity) playerIn, container, buf -> {
-                        buf.writeBoolean(handIn == Hand.MAIN_HAND);
-                    });
-                } else {
-                    Item item = findItem(playerIn.getHeldItem(handIn));
-                    if (item != null) {
-                        return item.onItemRightClick(worldIn, playerIn, handIn);
-                    }
-                }
-            }
+        Item item = findItem(playerIn.getHeldItem(handIn));
+        if (item != null) {
+            item.onItemRightClick(worldIn, playerIn, handIn);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
+    /**
+     * 右击方块
+     */
+    @Override
+    public ActionResultType onItemUse(ItemUseContext context) {
+        Item item = findItem(context.getItem());
+        if (item != null) {
+            return item.onItemUse(context);
+        }
+        return super.onItemUse(context);
+    }
+
+    /**
+     * 使用方式
+     */
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            item.getUseAction(stack);
+        }
+        return super.getUseAction(stack);
+    }
+
+    /**
+     * 修复率
+     */
+    @Override
+    public float getXpRepairRatio(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.getXpRepairRatio(stack);
+        }
+        return super.getXpRepairRatio(stack);
+    }
+
+    /**
+     * 使用时间，比如弓箭
+     */
+    @Override
+    public int getUseDuration(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.getUseDuration(stack);
+        }
+        return super.getUseDuration(stack);
+    }
+
+    /**
+     * 是否有附魔效果
+     */
+    @Override
+    public boolean hasEffect(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.hasEffect(stack);
+        }
+        return super.hasEffect(stack);
+    }
+
+    /**
+     * 能否修复
+     */
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        Item item = findItem(toRepair);
+        if (item != null) {
+            return item.getIsRepairable(toRepair, repair);
+        }
+        return super.getIsRepairable(toRepair, repair);
+    }
+
+    /**
+     * 可修复
+     */
+    @Override
+    public boolean isRepairable(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.isRepairable(stack);
+        }
+        return super.isRepairable(stack);
+    }
+
+    /**
+     * 和实体交互
+     */
+    @Override
+    public boolean itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.itemInteractionForEntity(stack, playerIn, target, hand);
+        }
+        return super.itemInteractionForEntity(stack, playerIn, target, hand);
+    }
+
+    /**
+     * 被玩家扔掉后干什么
+     */
+    @Override
+    public boolean onDroppedByPlayer(ItemStack stack, PlayerEntity player) {
+        Item item = findItem(stack);
+        if (item != null) {
+            item.onDroppedByPlayer(stack, player);
+        }
+        return super.onDroppedByPlayer(stack, player);
+    }
+
+    /**
+     * 玩家停止使用
+     */
+    @Override
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+        Item item = findItem(stack);
+        if (item != null) {
+            item.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+        }
+        super.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+    }
+
+    /**
+     * 被创造出来需要做什么
+     */
+    @Override
+    public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
+        Item item = findItem(stack);
+        if (item != null) {
+            item.onCreated(stack, worldIn, playerIn);
+        }
+        super.onCreated(stack, worldIn, playerIn);
+    }
+
+    /**
+     * 物品栏tick，被不断调用
+     */
+    @Override
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        Item item = findItem(stack);
+        if (item != null) {
+            item.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+        }
+        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+    }
+
+    /**
+     * 工具类型
+     */
+    @Override
+    public Set<ToolType> getToolTypes(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.getToolTypes(stack);
+        }
+        return super.getToolTypes(stack);
+    }
+
+    /**
+     * 使用完成
+     */
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
         Item item = findItem(stack);
@@ -92,7 +236,9 @@ public class SoulModelItem extends ItemModelItem {
         return super.onItemUseFinish(stack, worldIn, entityLiving);
     }
 
-
+    /**
+     * 获取破坏方块的速度
+     */
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         Item item = findItem(stack);
@@ -102,11 +248,17 @@ public class SoulModelItem extends ItemModelItem {
         return super.getDestroySpeed(stack, state);
     }
 
+    /**
+     * 是否可以破坏方块
+     */
     @Override
     public boolean canHarvestBlock(BlockState blockIn) {
         return true;
     }
 
+    /**
+     * 破坏了方块做什么
+     */
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
         if (!worldIn.isRemote && state.getBlockHardness(worldIn, pos) != 0.0F) {
@@ -117,6 +269,9 @@ public class SoulModelItem extends ItemModelItem {
         return true;
     }
 
+    /**
+     * 最大耐久
+     */
     @Override
     public int getMaxDamage(ItemStack stack) {
         Item item = findItem(stack);
@@ -126,6 +281,9 @@ public class SoulModelItem extends ItemModelItem {
         return super.getMaxDamage(stack);
     }
 
+    /**
+     * 攻击实体
+     */
     @Override
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         Item item = findItem(stack);
@@ -135,6 +293,9 @@ public class SoulModelItem extends ItemModelItem {
         return super.hitEntity(stack, target, attacker);
     }
 
+    /**
+     * 能否附魔
+     */
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         Item item = findItem(stack);
@@ -144,12 +305,17 @@ public class SoulModelItem extends ItemModelItem {
         return super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
+    /**
+     * 附魔好坏的概率
+     */
     @Override
     public int getItemEnchantability() {
         return 10;
     }
 
-
+    /**
+     * 稀有度
+     */
     @Override
     public Rarity getRarity(ItemStack stack) {
         Item item = findItem(stack);
@@ -159,6 +325,9 @@ public class SoulModelItem extends ItemModelItem {
         return super.getRarity(stack);
     }
 
+    /**
+     * 能不能堆叠
+     */
     @Override
     public boolean isEnchantable(ItemStack stack) {
         Item item = findItem(stack);
@@ -168,6 +337,9 @@ public class SoulModelItem extends ItemModelItem {
         return super.isEnchantable(stack);
     }
 
+    /**
+     * 破坏等级
+     */
     @Override
     public int getHarvestLevel(ItemStack stack, ToolType tool, @Nullable PlayerEntity player, @Nullable BlockState blockState) {
         Item item = findItem(stack);
@@ -177,7 +349,9 @@ public class SoulModelItem extends ItemModelItem {
         return super.getHarvestLevel(stack, tool, player, blockState);
     }
 
-
+    /**
+     * 查找物品灵魂
+     */
     public Item findItem(ItemStack itemStack) {
         IModelSoulHandler modelSoulHandler = itemStack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
         Item item = ForgeRegistries.ITEMS.getValue(modelSoulHandler.getSoulResourceLocation());
@@ -190,9 +364,9 @@ public class SoulModelItem extends ItemModelItem {
     @Override
     public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.modelInformation(stack, worldIn, tooltip, flagIn);
-        IModelSoulHandler modelSoulHandler= stack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+        IModelSoulHandler modelSoulHandler = stack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
         Item item = ForgeRegistries.ITEMS.getValue(modelSoulHandler.getSoulResourceLocation());
-        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_info",item.getName().getString()));
+        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_info", item.getName().getString()));
 
     }
 

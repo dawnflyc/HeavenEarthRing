@@ -11,6 +11,9 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 铁砧配方事件
+ */
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
 public class AnvilEvent {
 

@@ -7,6 +7,9 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.HashMap;
 
+/**
+ * 按键监听类
+ */
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
 public class KeyInputListener {
 

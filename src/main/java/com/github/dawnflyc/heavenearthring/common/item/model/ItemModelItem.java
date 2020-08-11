@@ -19,7 +19,9 @@ import org.lwjgl.glfw.GLFW;
 import javax.annotation.Nullable;
 import java.util.List;
 
-
+/**
+ * 模型物品
+ */
 public class ItemModelItem extends Item implements IItemModel {
 
     KeyInputListener.Key key= KeyInputListener.getKey(GLFW.GLFW_KEY_LEFT_SHIFT);
