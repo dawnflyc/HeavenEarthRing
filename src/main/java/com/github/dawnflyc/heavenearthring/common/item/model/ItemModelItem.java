@@ -10,6 +10,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.inventory.container.EnchantmentContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
@@ -38,7 +39,7 @@ public class ItemModelItem extends Item implements IItemModel {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (Minecraft.getInstance().currentScreen instanceof EnchantmentScreen){
-            tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.enchantment_gui"));
+            tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.enchantment_gui").setStyle(new Style().setColor(TextFormatting.RED)));
         }
         if (key.pressed() || key.repeated()){
             modelInformation(stack,worldIn,tooltip,flagIn);
@@ -52,6 +53,9 @@ public class ItemModelItem extends Item implements IItemModel {
         IModelRenderHandler modelRenderHandler= stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
         Item item = ForgeRegistries.ITEMS.getValue(modelRenderHandler.getRenderResourceLocation());
         tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_info",item.getName().getString(),modelRenderHandler.getRenderColor()));
+        if (Items.AIR.equals(item)){
+            tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_error").setStyle(new Style().setColor(TextFormatting.RED)));
+        }
     }
 
     @Override

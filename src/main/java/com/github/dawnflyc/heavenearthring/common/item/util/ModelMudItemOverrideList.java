@@ -1,18 +1,18 @@
 package com.github.dawnflyc.heavenearthring.common.item.util;
 
+import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemOverrideList;
-import net.minecraft.client.renderer.model.SimpleBakedModel;
+import net.minecraft.client.renderer.model.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -24,17 +24,21 @@ public class ModelMudItemOverrideList extends ItemOverrideList {
     public IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
         if (stack.getItem() instanceof IItemModel) {
             IModelRenderHandler modelRenderHandler = stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
-            if (modelRenderHandler.getRenderResourceLocation() != null) {
-                SimpleBakedModel simpleBakedModel = fineBakedModel(modelRenderHandler.getRenderResourceLocation());
+            if (modelRenderHandler.getRenderResourceLocation() != null && !Items.AIR.getRegistryName().equals(modelRenderHandler.getRenderResourceLocation())) {
+                SimpleBakedModel simpleBakedModel = findBakedModel(modelRenderHandler.getRenderResourceLocation());
                 if (simpleBakedModel != null) {
                     return simpleBakedModel;
                 }
             }
         }
-        return model;
+        //Minecraft.getInstance().getTextureManager().
+        //Minecraft.getInstance().getModelManager().getAtlasTexture(new ResourceLocation(HeavenEarthRing.MOD_ID,"error_model"))
+        return findBakedModel(new ResourceLocation(HeavenEarthRing.MOD_ID,"error_model"));
     }
 
-    protected SimpleBakedModel fineBakedModel(ResourceLocation resourceLocation) {
+
+
+    protected SimpleBakedModel findBakedModel(ResourceLocation resourceLocation) {
         Item item = ForgeRegistries.ITEMS.getValue(resourceLocation);
         if (item != null && item != Items.AIR) {
             Minecraft minecraft = Minecraft.getInstance();
@@ -44,5 +48,11 @@ public class ModelMudItemOverrideList extends ItemOverrideList {
             }
         }
         return null;
+    }
+
+    protected IBakedModel findBakedModel(ItemStack stack){
+        Minecraft minecraft = Minecraft.getInstance();
+        IBakedModel bakedModel = minecraft.getItemRenderer().getItemModelWithOverrides(stack, null, null);
+        return bakedModel;
     }
 }

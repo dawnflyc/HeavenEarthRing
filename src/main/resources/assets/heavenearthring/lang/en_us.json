@@ -1,13 +1,14 @@
 {
-  "item.heavenearthring.space_essence":"空间精髓",
-  "item.heavenearthring.item_model": "物品模型",
-  "item.heavenearthring.model_mud": "模型泥",
-  "item.heavenearthring.random_dye": "随机颜色染料",
-  "tooltip.heavenearthring.item.space_essence": "此物品放主手，任意非方块物品放副手，即可赋予空间力量（库存）,会消耗物品小心使用！",
-  "tooltip.heavenearthring.item.model_mud": "此物品放主手任意物品放副手，或者直接右击方块，即可制作物品模型(复杂模型无法制作，比如头颅、箱子)，不会消耗物品。",
-  "tooltip.heavenearthring.item.random_dye": "染料可以在铁砧里给模型染色，此物品为随机颜色染料（仅限于模型染色），颜色不满意可以重新合成一下。",
-  "tooltip.heavenearthring.enchantment_gui": "shift左击模型，数据将会消失！！！",
-  "tooltip.heavenearthring.item.item_model_info_tip": "按住shift查看模型数据。",
-  "tooltip.heavenearthring.item.item_model_info": "模型物品: %1$s ， 颜色: %2$s ",
-  "tooltip.heavenearthring.item.item_model_soul_info": "模型灵魂: %s"
+  "item.heavenearthring.space_essence":"Space Essence",
+  "item.heavenearthring.item_model": "Item Model",
+  "item.heavenearthring.model_mud": "Model Mud",
+  "item.heavenearthring.random_dye": "Random Dye",
+  "tooltip.heavenearthring.item.space_essence": "Give off-hand model inventory.",
+  "tooltip.heavenearthring.item.model_mud": "Use off-hand item make model.",
+  "tooltip.heavenearthring.item.random_dye": "Dye can dye the model in anvil. ",
+  "tooltip.heavenearthring.enchantment_gui": "Shift left click on the model, trigger the bug, the data will disappear! ! !",
+  "tooltip.heavenearthring.item.item_model_info_tip": "Shift view model data. ",
+  "tooltip.heavenearthring.item.item_model_info": "Model : %1$s ， Color: %2$s ",
+  "tooltip.heavenearthring.item.item_model_soul_info": "Model Soul: %s",
+  "tooltip.heavenearthring.item.item_model_error": "Model Error ! ! !"
 }

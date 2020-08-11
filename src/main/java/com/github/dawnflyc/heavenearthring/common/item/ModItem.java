@@ -1,9 +1,11 @@
 package com.github.dawnflyc.heavenearthring.common.item;
 
+import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.processtree.ITreeHandler;
 import com.github.dawnflyc.processtree.Result;
 import com.github.dawnflyc.processtree.TreeScan;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,6 +38,18 @@ public class ModItem implements ITreeHandler<Item> {
             REG_ITEMS.put(item.getRegistryName().getPath(), item);
             LOGGER.info("物品注册" + item.getClass().getName() + ":" + item.hashCode());
         });
+    }
+
+    public static void registerItem(Item item){
+        REG_ITEMS.put(item.getRegistryName().getPath(), item);
+    }
+
+    public static void registerItem(String registerName,Item item){
+        REG_ITEMS.put(registerName, item.setRegistryName(HeavenEarthRing.MOD_ID,registerName));
+    }
+
+    public static void registerItem(ResourceLocation registerName, Item item){
+        REG_ITEMS.put(registerName.getPath(), item.setRegistryName(registerName));
     }
 
 
