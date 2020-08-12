@@ -1,23 +1,14 @@
 package com.github.dawnflyc.heavenearthring.common.gui;
 
-import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.*;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.SlotItemHandler;
 
 /**
  * gui模型的服务端gui
@@ -60,7 +51,7 @@ public class ModelContainer extends Container {
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
-        ItemStack itemstack1=slot.getStack();
+        ItemStack itemstack1 = slot.getStack();
         if (slot != null && slot.getHasStack() && !(this.itemStack.isItemEqual(itemstack1))) {
             itemstack = itemstack1.copy();
             if (index < 27) {
@@ -82,10 +73,9 @@ public class ModelContainer extends Container {
     }
 
 
-
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
-        if (this.itemStack.isItemEqual(this.inventorySlots.get(slotId).getStack())){
+        if (this.itemStack.isItemEqual(this.inventorySlots.get(slotId).getStack())) {
             return ItemStack.EMPTY;
         }
         return super.slotClick(slotId, dragType, clickTypeIn, player);

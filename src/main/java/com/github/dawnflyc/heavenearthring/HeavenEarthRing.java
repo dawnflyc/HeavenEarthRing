@@ -6,14 +6,10 @@ import com.github.dawnflyc.heavenearthring.common.CommonProxy;
 import com.github.dawnflyc.heavenearthring.common.capability.ModCapability;
 import com.github.dawnflyc.heavenearthring.common.gui.ContainerTypeRegistry;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
-import com.github.dawnflyc.heavenearthring.common.item.ModItem;
 import com.github.dawnflyc.heavenearthring.common.recipe.anvil.ModAnvil;
 import com.github.dawnflyc.processtree.Tree;
 import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -57,7 +53,7 @@ public class HeavenEarthRing {
         tree.run();
         new ModAnvil();
         ContainerTypeRegistry.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ModItem.registerItem("error_model",new Item(new Item.Properties()));
+        //ModItem.registerItem("error_model",new Item(new Item.Properties()));
 
     }
 

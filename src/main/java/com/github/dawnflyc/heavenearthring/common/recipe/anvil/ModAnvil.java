@@ -7,7 +7,6 @@ import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
 import com.github.dawnflyc.heavenearthring.common.item.ModItem;
 import com.github.dawnflyc.heavenearthring.common.item.RandomDyeItem;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
@@ -51,8 +50,8 @@ public class ModAnvil {
             if (input.getLeft().getItem() instanceof IItemModel && !(input.getRight().getItem() instanceof IItemModel) && !(input.getRight().getItem() instanceof RandomDyeItem)
                     && !(input.getRight().getItem() instanceof DyeItem)) {
                 ItemStack itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_soul_model"));
-                IModelRenderHandler modelRenderHandler=itemStack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-                IModelRenderHandler modelRenderHandler1=input.getLeft().getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+                IModelRenderHandler modelRenderHandler = itemStack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+                IModelRenderHandler modelRenderHandler1 = input.getLeft().getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
                 modelRenderHandler.setRenderColor(modelRenderHandler1.getRenderColor());
                 modelRenderHandler.setRenderResourceLocation(modelRenderHandler1.getRenderResourceLocation());
                 IModelSoulHandler modelSoulHandler = itemStack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);

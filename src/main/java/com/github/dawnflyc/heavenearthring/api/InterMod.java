@@ -17,6 +17,7 @@ public class InterMod {
 
     /**
      * 发送信息
+     *
      * @param event
      */
     private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -25,6 +26,7 @@ public class InterMod {
 
     /**
      * 收信息
+     *
      * @param event
      */
     private void processIMC(final InterModProcessEvent event) {

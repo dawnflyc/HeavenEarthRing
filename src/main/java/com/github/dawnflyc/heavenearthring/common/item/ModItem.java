@@ -32,24 +32,24 @@ public class ModItem implements ITreeHandler<Item> {
         REG_ITEMS.forEach((s, item) -> event.getRegistry().register(item));
     }
 
+    public static void registerItem(Item item) {
+        REG_ITEMS.put(item.getRegistryName().getPath(), item);
+    }
+
+    public static void registerItem(String registerName, Item item) {
+        REG_ITEMS.put(registerName, item.setRegistryName(HeavenEarthRing.MOD_ID, registerName));
+    }
+
+    public static void registerItem(ResourceLocation registerName, Item item) {
+        REG_ITEMS.put(registerName.getPath(), item.setRegistryName(registerName));
+    }
+
     @Override
     public void handle(Result<Item> result) {
         result.build().forEach(item -> {
             REG_ITEMS.put(item.getRegistryName().getPath(), item);
             LOGGER.info("物品注册" + item.getClass().getName() + ":" + item.hashCode());
         });
-    }
-
-    public static void registerItem(Item item){
-        REG_ITEMS.put(item.getRegistryName().getPath(), item);
-    }
-
-    public static void registerItem(String registerName,Item item){
-        REG_ITEMS.put(registerName, item.setRegistryName(HeavenEarthRing.MOD_ID,registerName));
-    }
-
-    public static void registerItem(ResourceLocation registerName, Item item){
-        REG_ITEMS.put(registerName.getPath(), item.setRegistryName(registerName));
     }
 
 

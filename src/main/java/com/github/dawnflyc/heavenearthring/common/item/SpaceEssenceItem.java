@@ -16,8 +16,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,8 +42,8 @@ public class SpaceEssenceItem extends Item implements ModItem.ModItemRegistered 
             if (main.getItem() instanceof SpaceEssenceItem && off.getItem() instanceof IItemModel) {
                 if (main.getCount() > 0 && off.getCount() > 0) {
                     ItemStack itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_gui_model"));
-                    IModelRenderHandler modelRenderHandler=itemStack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-                    IModelRenderHandler modelRenderHandler1=off.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+                    IModelRenderHandler modelRenderHandler = itemStack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
+                    IModelRenderHandler modelRenderHandler1 = off.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
                     modelRenderHandler.setRenderResourceLocation(modelRenderHandler1.getRenderResourceLocation());
                     modelRenderHandler.setRenderColor(modelRenderHandler1.getRenderColor());
                     if (!playerIn.isCreative()) {
