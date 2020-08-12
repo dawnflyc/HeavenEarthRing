@@ -15,7 +15,7 @@ import net.minecraft.nbt.CompoundNBT;
 public class ModAnvil {
 
 
-    public ModAnvil() {
+    public static void init() {
         //模型染色
         AnvilEvent.AddAnvilRecipe(input -> {
             if (input.getLeft().getItem() instanceof IItemModel) {

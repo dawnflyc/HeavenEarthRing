@@ -11,22 +11,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 模型颜色
  */
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItemColor implements IItemColor {
 
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public static void itemColors(ColorHandlerEvent.Item event) {
-        IItemProvider[] iItemProviders = new IItemProvider[ModModel.LIST.size()];
-        for (int i = 0; i < ModModel.LIST.size(); i++) {
-            iItemProviders[i] = ModModel.LIST.get(i);
-        }
-        event.getItemColors().register(new ModItemColor(), iItemProviders);
-    }
+    private static final Logger LOGGER = LogManager.getLogger();
+
 
     @Override
     public int getColor(ItemStack itemstack, int color) {

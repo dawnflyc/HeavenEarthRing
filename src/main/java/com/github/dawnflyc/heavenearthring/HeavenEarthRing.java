@@ -6,8 +6,9 @@ import com.github.dawnflyc.heavenearthring.common.CommonProxy;
 import com.github.dawnflyc.heavenearthring.common.capability.ModCapability;
 import com.github.dawnflyc.heavenearthring.common.gui.ContainerTypeRegistry;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
+import com.github.dawnflyc.heavenearthring.common.item.ModItem;
+import com.github.dawnflyc.heavenearthring.common.item.model.ModModel;
 import com.github.dawnflyc.heavenearthring.common.recipe.anvil.ModAnvil;
-import com.github.dawnflyc.processtree.Tree;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -49,12 +50,10 @@ public class HeavenEarthRing {
 
 
     public HeavenEarthRing() {
-        Tree tree = new Tree(HeavenEarthRing.class.getPackage().getName());
-        tree.run();
-        new ModAnvil();
-        ContainerTypeRegistry.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //ModItem.registerItem("error_model",new Item(new Item.Properties()));
 
+        ModItem.register();
+        ModAnvil.init();
+        ContainerTypeRegistry.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     @SubscribeEvent

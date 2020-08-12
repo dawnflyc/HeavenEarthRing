@@ -1,13 +1,18 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
+import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.common.item.util.ModItemColor;
 import com.github.dawnflyc.heavenearthring.common.item.util.ModelMudBakedModel;
-import com.github.dawnflyc.processtree.ITreeHandler;
-import com.github.dawnflyc.processtree.Result;
-import com.github.dawnflyc.processtree.TreeScan;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
@@ -21,12 +26,16 @@ import java.util.Map;
  * 模型注册器
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-@TreeScan(recursive = true, priority = -10, method = IItemModel.class)
-public class ModModel implements ITreeHandler<IItemModel> {
+public class ModModel {
 
     public final static List<IItemModel> LIST = new ArrayList<>();
 
     private static final Logger LOGGER = LogManager.getLogger();
+
+    public static IItemModel registerIModel(IItemModel model) {
+        LIST.add(model);
+        return model;
+    }
 
     @SubscribeEvent
     public static void onModelBaked(ModelBakeEvent event) {
@@ -45,14 +54,18 @@ public class ModModel implements ITreeHandler<IItemModel> {
         });
     }
 
-    @Override
-    public void handle(Result<IItemModel> result) {
-        result.build().forEach(iModel -> {
-            LIST.add(iModel);
-            LOGGER.info("模型染色注册" + iModel.getClass().getName() + ":" + iModel.hashCode());
-        });
-
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public static void itemColors(ColorHandlerEvent.Item event) {
+        IItemProvider[] iItemProviders = new IItemProvider[ModModel.LIST.size()];
+        for (int i = 0; i < ModModel.LIST.size(); i++) {
+            iItemProviders[i] = ModModel.LIST.get(i);
+        }
+        event.getItemColors().register(new ModItemColor(), iItemProviders);
     }
+
+
+
 
 
 }

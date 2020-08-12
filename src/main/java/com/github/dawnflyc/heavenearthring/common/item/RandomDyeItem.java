@@ -22,7 +22,7 @@ import java.util.Random;
 /**
  * 随机染料物品
  */
-public class RandomDyeItem extends Item implements ModItem.ModItemRegistered {
+public class RandomDyeItem extends Item {
 
     protected final Random random = new Random();
 
