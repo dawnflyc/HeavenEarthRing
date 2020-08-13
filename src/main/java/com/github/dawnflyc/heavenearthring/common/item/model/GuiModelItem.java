@@ -1,20 +1,29 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelSoulHandler;
+import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -25,9 +34,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * gui模型物品
@@ -69,10 +80,14 @@ public class GuiModelItem extends ItemModelItem {
     }
 
     private static class ItemStackHanlerProvider implements ICapabilitySerializable<CompoundNBT> {
+         //implements ICapabilitySerializable<CompoundNBT>
+
         private final LazyOptional<IItemHandler> opt;
 
+        private final Capability<IItemHandler> capability=CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+
         private ItemStackHanlerProvider() {
-            opt = LazyOptional.of(() -> new InvWrapper(new Inventory(27)) {
+            opt = LazyOptional.of(() -> new ItemStackHandler(27){
                 @Override
                 public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
                     return super.isItemValid(slot, stack) && !(stack.getItem() instanceof GuiModelItem);
@@ -81,25 +96,27 @@ public class GuiModelItem extends ItemModelItem {
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(capability, opt);
+        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction facing) {
+            return capability.orEmpty(cap, opt);
         }
 
         @Override
         public CompoundNBT serializeNBT() {
-            IItemHandler itemHandler = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, opt).orElseThrow(NullPointerException::new);
-            if (itemHandler instanceof ItemStackHandler) {
-                return ((ItemStackHandler) (itemHandler)).serializeNBT();
-            }
-            return new CompoundNBT();
+           IItemHandler itemHandler = capability.orEmpty(capability,opt).orElseThrow(NullPointerException::new);
+           return  ((ItemStackHandler)itemHandler).serializeNBT();
         }
 
         @Override
         public void deserializeNBT(CompoundNBT nbt) {
-            IItemHandler itemHandler = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, opt).orElseThrow(NullPointerException::new);
-            if (itemHandler instanceof ItemStackHandler) {
-                ((ItemStackHandler) (itemHandler)).deserializeNBT(nbt);
-            }
+            IItemHandler itemHandler = capability.orEmpty(capability,opt).orElseThrow(NullPointerException::new);
+            ((ItemStackHandler)itemHandler).deserializeNBT(nbt);
         }
+    }
+
+    @Override
+    public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.modelInformation(stack, worldIn, tooltip, flagIn);
+        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_gui_info"));
+
     }
 }

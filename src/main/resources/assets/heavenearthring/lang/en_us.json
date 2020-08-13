@@ -10,5 +10,6 @@
   "tooltip.heavenearthring.item.item_model_info_tip": "Shift view model data. ",
   "tooltip.heavenearthring.item.item_model_info": "Model : %1$s ， Color: %2$s ",
   "tooltip.heavenearthring.item.item_model_soul_info": "Model Soul: %s",
+  "tooltip.heavenearthring.item.item_model_gui_info": "Model Soul: inventory",
   "tooltip.heavenearthring.item.item_model_error": "Model Error ! ! !"
 }

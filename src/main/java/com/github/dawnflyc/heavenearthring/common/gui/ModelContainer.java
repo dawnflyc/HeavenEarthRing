@@ -7,6 +7,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -23,11 +24,11 @@ public class ModelContainer extends Container {
         super(ContainerTypeRegistry.modelContainer.get(), id);
         this.playerInventory = playerInventory;
         this.itemStack = itemStack;
-        IItemHandlerModifiable flowerBagInv = (IItemHandlerModifiable) itemStack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+        IItemHandler itemHandler =  itemStack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
         int i = (3 - 4) * 18;
         for (int j = 0; j < 3; ++j) {
             for (int k = 0; k < 9; ++k) {
-                this.addSlot(new SlotItemHandler(flowerBagInv, k + j * 9, 8 + k * 18, 18 + j * 18));
+                this.addSlot(new SlotItemHandler(itemHandler, k + j * 9, 8 + k * 18, 18 + j * 18));
             }
         }
 
@@ -75,8 +76,10 @@ public class ModelContainer extends Container {
 
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
-        if (this.itemStack.isItemEqual(this.inventorySlots.get(slotId).getStack())) {
-            return ItemStack.EMPTY;
+        if(slotId<this.inventorySlots.size() && slotId>=0) {
+            if (this.itemStack.isItemEqual(this.inventorySlots.get(slotId).getStack())){
+                return ItemStack.EMPTY;
+            }
         }
         return super.slotClick(slotId, dragType, clickTypeIn, player);
     }
