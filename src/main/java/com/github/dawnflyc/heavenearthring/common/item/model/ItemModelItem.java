@@ -4,6 +4,7 @@ import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.client.KeyInputListener;
 import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.util.ITooltipFlag;
@@ -11,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -20,6 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -54,7 +57,7 @@ public class ItemModelItem extends Item implements IItemModel {
     public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         IModelRenderHandler modelRenderHandler = stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
         Item item = ForgeRegistries.ITEMS.getValue(modelRenderHandler.getRenderResourceLocation());
-        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_info", item.getName().getString(), modelRenderHandler.getRenderColor()));
+        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_info", item.getName().getString(), ColorUtil.format(modelRenderHandler.getRenderColor())));
         if (Items.AIR.equals(item)) {
             tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_error").setStyle(new Style().setColor(TextFormatting.RED)));
         }
