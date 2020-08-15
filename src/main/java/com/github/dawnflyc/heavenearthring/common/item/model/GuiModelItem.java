@@ -1,19 +1,14 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelSoulHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -21,20 +16,19 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +40,8 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
 public class GuiModelItem extends ItemModelItem {
 
-    public static final ResourceLocation GUI = new ResourceLocation(HeavenEarthRing.MOD_ID, "gui");
+    private static final Logger LOGGER = LogManager.getLogger();
+
 
     public GuiModelItem() {
         super(new Properties().maxStackSize(1));
@@ -57,11 +52,11 @@ public class GuiModelItem extends ItemModelItem {
         super(properties);
     }
 
-    @SubscribeEvent
-    public static void attachCapability(AttachCapabilitiesEvent<ItemStack> event) {
-        if (event.getObject().getItem() instanceof GuiModelItem) {
-            event.addCapability(GUI, new ItemStackHanlerProvider());
-        }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+        return new ItemStackHanlerProvider();
     }
 
     @Override
@@ -74,20 +69,70 @@ public class GuiModelItem extends ItemModelItem {
         return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
     }
 
+    @Nullable
+    @Override
+    public CompoundNBT getShareTag(ItemStack stack) {
+        if (stack != null) {
+            ItemStackHandler itemHandler = (ItemStackHandler) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+            if (itemHandler != null) {
+                CompoundNBT compoundNBT = stack.getTag();
+                if (compoundNBT != null) {
+                    CompoundNBT nbt = itemHandler.serializeNBT();
+                    if (nbt != null) {
+                        compoundNBT.put("inv", nbt);
+                        return compoundNBT;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+        ItemStackHandler itemHandler = (ItemStackHandler) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+        if (itemHandler != null) {
+            CompoundNBT compoundNBT = stack.getTag();
+            if (nbt != null) {
+                stack.setTag(nbt);
+                readTag(itemHandler, nbt);
+            } else if (compoundNBT != null) {
+                readTag(itemHandler, compoundNBT);
+            }
+        }
+    }
+
+    protected void readTag(ItemStackHandler itemStackHandler, @Nullable CompoundNBT nbt) {
+        CompoundNBT compoundNBT1 = nbt.getCompound("inv");
+        if (compoundNBT1 != null) {
+            itemStackHandler.deserializeNBT(compoundNBT1);
+        }
+    }
+
+
     @Override
     public ResourceLocation getResourceLocation() {
         return this.getRegistryName();
     }
 
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.modelInformation(stack, worldIn, tooltip, flagIn);
+        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_gui_info"));
+        CompoundNBT compoundNBT = stack.getTag();
+        if (compoundNBT != null) {
+            CompoundNBT nbt = compoundNBT.getCompound("inv");
+        }
+
+    }
+
     private static class ItemStackHanlerProvider implements ICapabilitySerializable<CompoundNBT> {
-         //implements ICapabilitySerializable<CompoundNBT>
 
         private final LazyOptional<IItemHandler> opt;
 
-        private final Capability<IItemHandler> capability=CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
-
         private ItemStackHanlerProvider() {
-            opt = LazyOptional.of(() -> new ItemStackHandler(27){
+            opt = LazyOptional.of(() -> new ItemStackHandler(27) {
                 @Override
                 public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
                     return super.isItemValid(slot, stack) && !(stack.getItem() instanceof GuiModelItem);
@@ -97,26 +142,30 @@ public class GuiModelItem extends ItemModelItem {
 
         @Override
         public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction facing) {
-            return capability.orEmpty(cap, opt);
+            return getCapability(cap);
+        }
+
+        @Nonnull
+        @Override
+        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, opt);
         }
 
         @Override
         public CompoundNBT serializeNBT() {
-           IItemHandler itemHandler = capability.orEmpty(capability,opt).orElseThrow(NullPointerException::new);
-           return  ((ItemStackHandler)itemHandler).serializeNBT();
+            IItemHandler itemHandler = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, opt).orElse(null);
+            if (itemHandler != null) {
+                return ((ItemStackHandler) itemHandler).serializeNBT();
+            }
+            return new CompoundNBT();
         }
 
         @Override
         public void deserializeNBT(CompoundNBT nbt) {
-            IItemHandler itemHandler = capability.orEmpty(capability,opt).orElseThrow(NullPointerException::new);
-            ((ItemStackHandler)itemHandler).deserializeNBT(nbt);
+            IItemHandler itemHandler = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, opt).orElse(null);
+            if (itemHandler != null) {
+                ((ItemStackHandler) itemHandler).deserializeNBT(nbt);
+            }
         }
-    }
-
-    @Override
-    public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.modelInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_gui_info"));
-
     }
 }

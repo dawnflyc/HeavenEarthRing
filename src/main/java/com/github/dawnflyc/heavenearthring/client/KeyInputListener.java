@@ -1,6 +1,7 @@
 package com.github.dawnflyc.heavenearthring.client;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 /**
  * 按键监听类
  */
-@Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID)
+@Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID, value = Dist.CLIENT)
 public class KeyInputListener {
 
     private static final HashMap<Integer, Key> MAP = new HashMap<>();

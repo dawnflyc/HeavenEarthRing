@@ -1,8 +1,7 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelSoulHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.IModelSoulHandler;
+import com.github.dawnflyc.heavenearthring.common.nbt.SoulModelNBT;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
@@ -19,6 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -32,6 +33,7 @@ public class SoulModelItem extends ItemModelItem {
     public SoulModelItem() {
         super(new Properties().maxStackSize(1));
         this.setRegistryName(HeavenEarthRing.MOD_ID, "item_soul_model");
+
     }
 
     public SoulModelItem(Properties properties) {
@@ -71,6 +73,7 @@ public class SoulModelItem extends ItemModelItem {
         }
         return super.onItemUse(context);
     }
+
 
     /**
      * 使用方式
@@ -274,6 +277,21 @@ public class SoulModelItem extends ItemModelItem {
     }
 
     /**
+     * 攻击伤害
+     *
+     * @param stack
+     * @return
+     */
+    @Override
+    public int getDamage(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.getDamage(stack);
+        }
+        return super.getDamage(stack);
+    }
+
+    /**
      * 攻击实体
      */
     @Override
@@ -341,25 +359,27 @@ public class SoulModelItem extends ItemModelItem {
         return super.getHarvestLevel(stack, tool, player, blockState);
     }
 
+
     /**
      * 查找物品灵魂
      */
     public Item findItem(ItemStack itemStack) {
-        IModelSoulHandler modelSoulHandler = itemStack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-        Item item = ForgeRegistries.ITEMS.getValue(modelSoulHandler.getSoulResourceLocation());
+        SoulModelNBT soulModelNBT = new SoulModelNBT(itemStack.getTag());
+        Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
         if (!(item instanceof AirItem)) {
             return item;
         }
         return null;
     }
 
+
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.modelInformation(stack, worldIn, tooltip, flagIn);
-        IModelSoulHandler modelSoulHandler = stack.getCapability(CapabilityModelSoulHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-        Item item = ForgeRegistries.ITEMS.getValue(modelSoulHandler.getSoulResourceLocation());
+        SoulModelNBT soulModelNBT = new SoulModelNBT(stack.getTag());
+        Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
         tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_info", item.getName().getString()));
-
     }
 
     @Override

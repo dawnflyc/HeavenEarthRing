@@ -1,6 +1,5 @@
 package com.github.dawnflyc.heavenearthring.common.item;
 
-import com.github.dawnflyc.heavenearthring.common.recipe.anvil.AnvilIO;
 import com.github.dawnflyc.heavenearthring.util.ColorUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -52,19 +51,19 @@ public class RandomDyeItem extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        if (playerIn.isSneaking()){
-            ItemStack itemStack=playerIn.getHeldItem(handIn);
-            if (!worldIn.isRemote){
-                String name=itemStack.getDisplayName().getFormattedText();
-                if (name.length()==6){
-                    Color color=ColorUtil.ConvertHexToColor(name);
-                    if (color!=null){
-                        CompoundNBT compoundNBT=itemStack.getTag();
-                        compoundNBT.putInt("color",color.getRGB());
+        if (playerIn.isSneaking()) {
+            ItemStack itemStack = playerIn.getHeldItem(handIn);
+            if (!worldIn.isRemote) {
+                String name = itemStack.getDisplayName().getFormattedText();
+                if (name.length() == 6) {
+                    Color color = ColorUtil.ConvertHexToColor(name);
+                    if (color != null) {
+                        CompoundNBT compoundNBT = itemStack.getTag();
+                        compoundNBT.putInt("color", color.getRGB());
                     }
                 }
             }
-            return new ActionResult<>(ActionResultType.SUCCESS,itemStack);
+            return new ActionResult<>(ActionResultType.SUCCESS, itemStack);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
@@ -76,7 +75,7 @@ public class RandomDyeItem extends Item {
         tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.random_dye"));
         if ((compoundNBT = stack.getTag()) != null) {
             int color = compoundNBT.getInt("color");
-                tooltip.add(new StringTextComponent("RGB:" + ColorUtil.format(color)));
+            tooltip.add(new StringTextComponent("RGB:" + ColorUtil.format(color)));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }

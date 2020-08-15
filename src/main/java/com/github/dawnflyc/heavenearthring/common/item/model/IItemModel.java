@@ -1,6 +1,5 @@
 package com.github.dawnflyc.heavenearthring.common.item.model;
 
-import com.github.dawnflyc.heavenearthring.common.item.ModItem;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 

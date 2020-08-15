@@ -1,8 +1,7 @@
-package com.github.dawnflyc.heavenearthring.common.item.util;
+package com.github.dawnflyc.heavenearthring.client.model;
 
-import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
+import com.github.dawnflyc.heavenearthring.common.nbt.RenderModelNBT;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemOverrideList;
@@ -24,9 +23,9 @@ public class ModelMudItemOverrideList extends ItemOverrideList {
     @Override
     public IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
         if (stack.getItem() instanceof IItemModel) {
-            IModelRenderHandler modelRenderHandler = stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(() -> new NullPointerException());
-            if (modelRenderHandler.getRenderResourceLocation() != null && !Items.AIR.getRegistryName().equals(modelRenderHandler.getRenderResourceLocation())) {
-                SimpleBakedModel simpleBakedModel = findBakedModel(modelRenderHandler.getRenderResourceLocation());
+            RenderModelNBT renderModelNBT = new RenderModelNBT(stack.getTag());
+            if (renderModelNBT.getResourceLocation() != null && !Items.AIR.getRegistryName().equals(renderModelNBT.getResourceLocation())) {
+                SimpleBakedModel simpleBakedModel = findBakedModel(renderModelNBT.getResourceLocation());
                 if (simpleBakedModel != null) {
                     return simpleBakedModel;
                 }

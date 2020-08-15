@@ -3,7 +3,6 @@ package com.github.dawnflyc.heavenearthring.common.item;
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.common.item.model.GuiModelItem;
 import com.github.dawnflyc.heavenearthring.common.item.model.ItemModelItem;
-import com.github.dawnflyc.heavenearthring.common.item.model.ModModel;
 import com.github.dawnflyc.heavenearthring.common.item.model.SoulModelItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -47,16 +46,18 @@ public class ModItem {
         return item;
     }
 
-    public static void register(){
+    public static void register() {
         registerItem(new ModelMudItem());
         registerItem(new RandomDyeItem());
         registerItem(new SpaceEssenceItem());
 
-        registerItem((Item) ModModel.registerIModel(new ItemModelItem()));
-        registerItem((Item) ModModel.registerIModel(new GuiModelItem()));
-        registerItem((Item) ModModel.registerIModel(new SoulModelItem()));
+    }
 
 
+    public static void registerModelItem() {
+        registerItem(new ItemModelItem());
+        registerItem(new GuiModelItem());
+        registerItem(new SoulModelItem());
     }
 
 }

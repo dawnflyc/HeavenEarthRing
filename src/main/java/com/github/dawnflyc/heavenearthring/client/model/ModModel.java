@@ -1,8 +1,10 @@
-package com.github.dawnflyc.heavenearthring.common.item.model;
+package com.github.dawnflyc.heavenearthring.client.model;
 
-import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.common.item.util.ModItemColor;
-import com.github.dawnflyc.heavenearthring.common.item.util.ModelMudBakedModel;
+import com.github.dawnflyc.heavenearthring.common.item.ModItem;
+import com.github.dawnflyc.heavenearthring.common.item.model.GuiModelItem;
+import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
+import com.github.dawnflyc.heavenearthring.common.item.model.ItemModelItem;
+import com.github.dawnflyc.heavenearthring.common.item.model.SoulModelItem;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -12,7 +14,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +26,7 @@ import java.util.Map;
 /**
  * 模型注册器
  */
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModModel {
 
     public final static List<IItemModel> LIST = new ArrayList<>();
@@ -37,6 +38,13 @@ public class ModModel {
         return model;
     }
 
+    public static void registerModel() {
+        ModItem.registerItem((Item) ModModel.registerIModel(new ItemModelItem()));
+        ModItem.registerItem((Item) ModModel.registerIModel(new GuiModelItem()));
+        ModItem.registerItem((Item) ModModel.registerIModel(new SoulModelItem()));
+    }
+
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onModelBaked(ModelBakeEvent event) {
         LIST.forEach(iModel -> {
@@ -63,9 +71,6 @@ public class ModModel {
         }
         event.getItemColors().register(new ModItemColor(), iItemProviders);
     }
-
-
-
 
 
 }

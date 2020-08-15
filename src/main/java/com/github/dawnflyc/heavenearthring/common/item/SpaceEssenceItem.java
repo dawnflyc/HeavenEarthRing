@@ -1,14 +1,14 @@
 package com.github.dawnflyc.heavenearthring.common.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
-import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
+import com.github.dawnflyc.heavenearthring.common.nbt.RenderModelNBT;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
@@ -42,10 +42,10 @@ public class SpaceEssenceItem extends Item {
             if (main.getItem() instanceof SpaceEssenceItem && off.getItem() instanceof IItemModel) {
                 if (main.getCount() > 0 && off.getCount() > 0) {
                     ItemStack itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_gui_model"));
-                    IModelRenderHandler modelRenderHandler = itemStack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-                    IModelRenderHandler modelRenderHandler1 = off.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-                    modelRenderHandler.setRenderResourceLocation(modelRenderHandler1.getRenderResourceLocation());
-                    modelRenderHandler.setRenderColor(modelRenderHandler1.getRenderColor());
+                    RenderModelNBT renderModelNBT = new RenderModelNBT(off.getTag());
+                    CompoundNBT compoundNBT = new CompoundNBT();
+                    renderModelNBT.serializeNBT(compoundNBT);
+                    itemStack.setTag(compoundNBT);
                     if (!playerIn.isCreative()) {
                         main.setCount(main.getCount() - 1);
                         off.setCount(off.getCount() - 1);

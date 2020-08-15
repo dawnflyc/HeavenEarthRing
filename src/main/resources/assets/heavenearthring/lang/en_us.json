@@ -6,7 +6,6 @@
   "tooltip.heavenearthring.item.space_essence": "Give off-hand model inventory.",
   "tooltip.heavenearthring.item.model_mud": "Use off-hand item make model.",
   "tooltip.heavenearthring.item.random_dye": "Dye can dye the model in anvil. ",
-  "tooltip.heavenearthring.enchantment_gui": "Shift left click on the model, trigger the bug, the data will disappear! ! !",
   "tooltip.heavenearthring.item.item_model_info_tip": "Shift view model data. ",
   "tooltip.heavenearthring.item.item_model_info": "Model : %1$s ， Color: %2$s ",
   "tooltip.heavenearthring.item.item_model_soul_info": "Model Soul: %s",

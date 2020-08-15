@@ -6,7 +6,6 @@
   "tooltip.heavenearthring.item.space_essence": "賦予副手模型空間力量（庫存）。",
   "tooltip.heavenearthring.item.model_mud": "將副手物品或者方塊制作為模型。",
   "tooltip.heavenearthring.item.random_dye": "在鐵砧中給模型染色。",
-  "tooltip.heavenearthring.enchantment_gui": "shift左擊模型，觸發bug，數據將會消失！！！",
   "tooltip.heavenearthring.item.item_model_info_tip": "shift查看模型數據。",
   "tooltip.heavenearthring.item.item_model_info": "模型: %1$s ， 顏色: %2$s ",
   "tooltip.heavenearthring.item.item_model_soul_info": "模型靈魂: %s",

@@ -2,27 +2,26 @@ package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.client.KeyInputListener;
-import com.github.dawnflyc.heavenearthring.common.capability.CapabilityModelRenderHandler;
-import com.github.dawnflyc.heavenearthring.common.capability.IModelRenderHandler;
+import com.github.dawnflyc.heavenearthring.common.nbt.RenderModelNBT;
 import com.github.dawnflyc.heavenearthring.util.ColorUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.EnchantmentScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -30,10 +29,11 @@ import java.util.List;
  */
 public class ItemModelItem extends Item implements IItemModel {
 
+    private static final Logger LOGGER = LogManager.getLogger();
     KeyInputListener.Key key = KeyInputListener.getKey(GLFW.GLFW_KEY_LEFT_SHIFT);
 
     public ItemModelItem() {
-        super(new Properties().maxStackSize(1));
+        super(new Properties());
         this.setRegistryName(HeavenEarthRing.MOD_ID, "item_model");
     }
 
@@ -41,11 +41,10 @@ public class ItemModelItem extends Item implements IItemModel {
         super(properties);
     }
 
+
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if (Minecraft.getInstance().currentScreen instanceof EnchantmentScreen) {
-            tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.enchantment_gui").setStyle(new Style().setColor(TextFormatting.RED)));
-        }
         if (key.pressed() || key.repeated()) {
             modelInformation(stack, worldIn, tooltip, flagIn);
         } else {
@@ -54,19 +53,21 @@ public class ItemModelItem extends Item implements IItemModel {
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        IModelRenderHandler modelRenderHandler = stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-        Item item = ForgeRegistries.ITEMS.getValue(modelRenderHandler.getRenderResourceLocation());
-        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_info", item.getName().getString(), ColorUtil.format(modelRenderHandler.getRenderColor())));
+        RenderModelNBT renderModelNBT = new RenderModelNBT(stack.getTag());
+        Item item = ForgeRegistries.ITEMS.getValue(renderModelNBT.getResourceLocation());
+        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_info", item.getName().getString(), ColorUtil.format(renderModelNBT.getColor())));
         if (Items.AIR.equals(item)) {
             tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_error").setStyle(new Style().setColor(TextFormatting.RED)));
         }
+
     }
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        IModelRenderHandler modelRenderHandler = stack.getCapability(CapabilityModelRenderHandler.CAPABILITY).orElseThrow(NullPointerException::new);
-        Item item = ForgeRegistries.ITEMS.getValue(modelRenderHandler.getRenderResourceLocation());
+        RenderModelNBT renderModelNBT = new RenderModelNBT(stack.getTag());
+        Item item = ForgeRegistries.ITEMS.getValue(renderModelNBT.getResourceLocation());
         return item.getTranslationKey();
     }
 
