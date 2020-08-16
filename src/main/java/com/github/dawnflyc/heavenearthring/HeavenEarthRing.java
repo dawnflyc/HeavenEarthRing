@@ -28,7 +28,7 @@ public class HeavenEarthRing {
     /**
      * 版本
      */
-    public static final String VERSION = "@MOD_VERSION@";
+    public static final String VERSION = "@VERSION@";
     /**
      * modid
      */
