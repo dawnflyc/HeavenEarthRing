@@ -3,6 +3,7 @@ package com.github.dawnflyc.heavenearthring;
 import com.github.dawnflyc.heavenearthring.client.ClientProxy;
 import com.github.dawnflyc.heavenearthring.client.gui.GuiModelContainer;
 import com.github.dawnflyc.heavenearthring.common.CommonProxy;
+import com.github.dawnflyc.heavenearthring.common.config.Config;
 import com.github.dawnflyc.heavenearthring.common.gui.ContainerTypeRegistry;
 import com.github.dawnflyc.heavenearthring.common.gui.ModelContainer;
 import com.github.dawnflyc.heavenearthring.common.network.Networking;
@@ -12,7 +13,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -51,7 +54,7 @@ public class HeavenEarthRing {
         proxy.init();
         ModAnvil.init();
         ContainerTypeRegistry.CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
     }
 
     @SubscribeEvent

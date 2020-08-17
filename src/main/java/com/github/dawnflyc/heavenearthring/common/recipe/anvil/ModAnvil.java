@@ -8,6 +8,7 @@ import com.github.dawnflyc.heavenearthring.common.nbt.SoulModelNBT;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ModAnvil {
@@ -35,7 +36,6 @@ public class ModAnvil {
                     return null;
                 }
                 ItemStack itemStack = input.getLeft().copy();
-                RenderModelNBT renderModelNBT1 = new RenderModelNBT(input.getLeft().getTag());
                 renderModelNBT.setColor(color);
                 CompoundNBT compoundNBT = new CompoundNBT();
                 renderModelNBT.serializeNBT(compoundNBT);
@@ -48,18 +48,18 @@ public class ModAnvil {
         AnvilEvent.AddAnvilRecipe(input -> {
             if (input.getLeft().getItem() instanceof IItemModel && !(input.getRight().getItem() instanceof IItemModel) && !(input.getRight().getItem() instanceof RandomDyeItem)
                     && !(input.getRight().getItem() instanceof DyeItem)) {
-                ItemStack itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_soul_model"));
-
-                RenderModelNBT renderModelNBT = new RenderModelNBT(input.getLeft().getTag());
-                SoulModelNBT soulModelNBT = new SoulModelNBT(input.getRight().getItem().getRegistryName());
-                CompoundNBT compoundNBT = new CompoundNBT();
-                //继承渲染nbt
-                renderModelNBT.serializeNBT(compoundNBT);
-                //增加灵魂
-                soulModelNBT.serializeNBT(compoundNBT);
-                itemStack.setTag(compoundNBT);
-                return new AnvilIO.AnvilOutput(itemStack, 1, 1);
-
+                if (!Items.AIR.equals(input.getRight().getItem()) && !Items.AIR.getRegistryName().equals(input.getRight().getItem().getRegistryName())) {
+                    ItemStack itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_soul_model"));
+                    RenderModelNBT renderModelNBT = new RenderModelNBT(input.getLeft().getTag());
+                    SoulModelNBT soulModelNBT = new SoulModelNBT(input.getRight().getItem().getRegistryName());
+                    CompoundNBT compoundNBT = new CompoundNBT();
+                    //继承渲染nbt
+                    renderModelNBT.serializeNBT(compoundNBT);
+                    //增加灵魂
+                    soulModelNBT.serializeNBT(compoundNBT);
+                    itemStack.setTag(compoundNBT);
+                    return new AnvilIO.AnvilOutput(itemStack, 1, 1);
+                }
             }
             return null;
         });
