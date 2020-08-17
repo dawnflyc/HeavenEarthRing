@@ -19,8 +19,6 @@ public class Config {
         /*white = builder.defineList("list", new ArrayList<>(), o -> {
             return true;
         });*/
-        Map<ConfigEnum, List<String>> map=new LinkedHashMap<>();
-        builder.define("list",map);
         builder.pop();
         COMMON_CONFIG = builder.build();
     }
