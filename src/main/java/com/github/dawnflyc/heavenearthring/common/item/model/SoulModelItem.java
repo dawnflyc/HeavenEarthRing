@@ -16,6 +16,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -364,10 +366,12 @@ public class SoulModelItem extends ItemModelItem {
      * 查找物品灵魂
      */
     public Item findItem(ItemStack itemStack) {
-        SoulModelNBT soulModelNBT = new SoulModelNBT(itemStack.getTag());
-        Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
-        if (!(item instanceof AirItem)) {
-            return item;
+        if (itemStack!=null && itemStack.getTag()!=null){
+            SoulModelNBT soulModelNBT = new SoulModelNBT(itemStack.getTag());
+            Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
+            if (!(item instanceof AirItem)) {
+                return item;
+            }
         }
         return null;
     }
@@ -377,9 +381,13 @@ public class SoulModelItem extends ItemModelItem {
     @OnlyIn(Dist.CLIENT)
     public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.modelInformation(stack, worldIn, tooltip, flagIn);
-        SoulModelNBT soulModelNBT = new SoulModelNBT(stack.getTag());
-        Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
-        tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_info", item.getName().getString()));
+        if (stack!=null && stack.getTag()!=null){
+            SoulModelNBT soulModelNBT = new SoulModelNBT(stack.getTag());
+            Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
+            tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_info", item.getName().getString()));
+        }else {
+            tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_error").setStyle(new Style().setColor(TextFormatting.RED)));
+        }
     }
 
     @Override

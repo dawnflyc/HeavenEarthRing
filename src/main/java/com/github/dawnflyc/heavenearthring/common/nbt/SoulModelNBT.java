@@ -9,9 +9,11 @@ public class SoulModelNBT {
 
 
     public SoulModelNBT(CompoundNBT nbt) {
-        CompoundNBT compoundNBT = nbt.getCompound("soul_model");
-        if (compoundNBT != null) {
-            this.resourceLocation = new ResourceLocation(compoundNBT.getString("soul"));
+        if (nbt != null) {
+            CompoundNBT compoundNBT = nbt.getCompound("soul_model");
+            if (compoundNBT != null) {
+                this.resourceLocation = new ResourceLocation(compoundNBT.getString("soul"));
+            }
         }
     }
 

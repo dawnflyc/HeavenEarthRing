@@ -10,5 +10,6 @@
   "tooltip.heavenearthring.item.item_model_info": "模型: %1$s , 颜色: %2$s ",
   "tooltip.heavenearthring.item.item_model_soul_info": "模型灵魂: %s",
   "tooltip.heavenearthring.item.item_model_gui_info": "模型灵魂: 库存",
-  "tooltip.heavenearthring.item.item_model_error": "模型异常！！！"
+  "tooltip.heavenearthring.item.item_model_error": "模型异常！！！",
+  "tooltip.heavenearthring.item.item_model_soul_error": "灵魂异常！！！"
 }
