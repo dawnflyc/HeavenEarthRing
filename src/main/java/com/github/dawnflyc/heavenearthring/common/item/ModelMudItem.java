@@ -65,9 +65,7 @@ public class ModelMudItem extends Item {
             ItemStack off = playerIn.getHeldItem(Hand.OFF_HAND);
             IBakedModel model=Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(off,null,null);
             if (main.getCount() > 0 && off.getCount() > 0 && !model.isBuiltInRenderer()) {
-
                 createModel(playerIn, off);
-
                 return new ActionResult<ItemStack>(ActionResultType.SUCCESS, main);
             }
         }

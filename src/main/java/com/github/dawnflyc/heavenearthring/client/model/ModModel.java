@@ -38,12 +38,6 @@ public class ModModel {
         return model;
     }
 
-    public static void registerModel() {
-        ModItem.registerItem((Item) ModModel.registerIModel(new ItemModelItem()));
-        ModItem.registerItem((Item) ModModel.registerIModel(new GuiModelItem()));
-        ModItem.registerItem((Item) ModModel.registerIModel(new SoulModelItem()));
-    }
-
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onModelBaked(ModelBakeEvent event) {

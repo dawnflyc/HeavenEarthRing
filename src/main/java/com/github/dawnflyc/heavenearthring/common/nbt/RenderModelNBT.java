@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
 
-public class RenderModelNBT {
+public class RenderModelNBT implements IModelNBT {
 
     protected ResourceLocation resourceLocation;
 
@@ -31,10 +31,12 @@ public class RenderModelNBT {
     }
 
     public void serializeNBT(CompoundNBT nbt) {
-        CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.putString("render", this.resourceLocation.toString());
-        compoundNBT.putInt("color", this.color);
-        nbt.put("render_model", compoundNBT);
+        if (nbt!=null){
+            CompoundNBT compoundNBT = new CompoundNBT();
+            compoundNBT.putString("render", this.resourceLocation.toString());
+            compoundNBT.putInt("color", this.color);
+            nbt.put("render_model", compoundNBT);
+        }
     }
 
     public ResourceLocation getResourceLocation() {

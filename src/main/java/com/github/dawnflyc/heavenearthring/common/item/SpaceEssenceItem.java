@@ -46,12 +46,12 @@ public class SpaceEssenceItem extends Item {
                     CompoundNBT compoundNBT = new CompoundNBT();
                     renderModelNBT.serializeNBT(compoundNBT);
                     itemStack.setTag(compoundNBT);
-                    if (!playerIn.isCreative()) {
-                        main.setCount(main.getCount() - 1);
-                        off.setCount(off.getCount() - 1);
-                    }
                     playerIn.addItemStackToInventory(itemStack);
-                    return ActionResult.resultSuccess(main);
+                    if (!playerIn.isCreative()) {
+                        main.shrink(1);
+                        off.shrink(1);
+                    }
+                    return ActionResult.resultSuccess(itemStack);
                 }
             }
         }

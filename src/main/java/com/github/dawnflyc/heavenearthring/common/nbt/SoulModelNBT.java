@@ -3,7 +3,7 @@ package com.github.dawnflyc.heavenearthring.common.nbt;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
-public class SoulModelNBT {
+public class SoulModelNBT implements IModelNBT {
 
     protected ResourceLocation resourceLocation;
 

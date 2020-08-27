@@ -8,7 +8,9 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +21,7 @@ public class AnvilEvent {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static Set<AnvilUpdateRecipe> anvilUpdateRecipes = new HashSet<>();
+    public static List<AnvilUpdateRecipe> anvilUpdateRecipes = new ArrayList<>();
 
     public static void AddAnvilRecipe(AnvilUpdateRecipe anvilUpdateRecipe) {
         anvilUpdateRecipes.add(anvilUpdateRecipe);

@@ -2,11 +2,14 @@ package com.github.dawnflyc.heavenearthring.common.item.model;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
 import com.github.dawnflyc.heavenearthring.common.nbt.SoulModelNBT;
+import com.google.common.collect.Multimap;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -59,7 +62,7 @@ public class SoulModelItem extends ItemModelItem {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         Item item = findItem(playerIn.getHeldItem(handIn));
         if (item != null) {
-            item.onItemRightClick(worldIn, playerIn, handIn);
+           return item.onItemRightClick(worldIn, playerIn, handIn);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
@@ -84,21 +87,9 @@ public class SoulModelItem extends ItemModelItem {
     public UseAction getUseAction(ItemStack stack) {
         Item item = findItem(stack);
         if (item != null) {
-            item.getUseAction(stack);
+            return item.getUseAction(stack);
         }
         return super.getUseAction(stack);
-    }
-
-    /**
-     * 修复率
-     */
-    @Override
-    public float getXpRepairRatio(ItemStack stack) {
-        Item item = findItem(stack);
-        if (item != null) {
-            return item.getXpRepairRatio(stack);
-        }
-        return super.getXpRepairRatio(stack);
     }
 
     /**
@@ -114,15 +105,27 @@ public class SoulModelItem extends ItemModelItem {
     }
 
     /**
-     * 是否有附魔效果
+     * 使用完成
      */
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
         Item item = findItem(stack);
         if (item != null) {
-            return item.hasEffect(stack);
+            return item.onItemUseFinish(stack, worldIn, entityLiving);
         }
-        return super.hasEffect(stack);
+        return super.onItemUseFinish(stack, worldIn, entityLiving);
+    }
+
+    /**
+     * 玩家停止使用
+     */
+    @Override
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+        Item item = findItem(stack);
+        if (item != null) {
+            item.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+        }
+        super.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
     }
 
     /**
@@ -150,6 +153,18 @@ public class SoulModelItem extends ItemModelItem {
     }
 
     /**
+     * 修复率
+     */
+    @Override
+    public float getXpRepairRatio(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.getXpRepairRatio(stack);
+        }
+        return super.getXpRepairRatio(stack);
+    }
+
+    /**
      * 和实体交互
      */
     @Override
@@ -168,21 +183,9 @@ public class SoulModelItem extends ItemModelItem {
     public boolean onDroppedByPlayer(ItemStack stack, PlayerEntity player) {
         Item item = findItem(stack);
         if (item != null) {
-            item.onDroppedByPlayer(stack, player);
+           return item.onDroppedByPlayer(stack, player);
         }
         return super.onDroppedByPlayer(stack, player);
-    }
-
-    /**
-     * 玩家停止使用
-     */
-    @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
-        Item item = findItem(stack);
-        if (item != null) {
-            item.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
-        }
-        super.onPlayerStoppedUsing(stack, worldIn, entityLiving, timeLeft);
     }
 
     /**
@@ -222,18 +225,6 @@ public class SoulModelItem extends ItemModelItem {
     }
 
     /**
-     * 使用完成
-     */
-    @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-        Item item = findItem(stack);
-        if (item != null) {
-            return item.onItemUseFinish(stack, worldIn, entityLiving);
-        }
-        return super.onItemUseFinish(stack, worldIn, entityLiving);
-    }
-
-    /**
      * 获取破坏方块的速度
      */
     @Override
@@ -258,12 +249,11 @@ public class SoulModelItem extends ItemModelItem {
      */
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        if (!worldIn.isRemote && state.getBlockHardness(worldIn, pos) != 0.0F) {
-            stack.damageItem(1, entityLiving, (p_220038_0_) -> {
-                p_220038_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
-            });
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.onBlockDestroyed(stack, worldIn,state,pos,entityLiving);
         }
-        return true;
+        return item.onBlockDestroyed(stack, worldIn,state,pos,entityLiving);
     }
 
     /**
@@ -279,7 +269,7 @@ public class SoulModelItem extends ItemModelItem {
     }
 
     /**
-     * 攻击伤害
+     * 耐久
      *
      * @param stack
      * @return
@@ -338,6 +328,19 @@ public class SoulModelItem extends ItemModelItem {
     }
 
     /**
+     * 是否有附魔效果
+     */
+    @Override
+    public boolean hasEffect(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item != null) {
+            return item.hasEffect(stack);
+        }
+        return super.hasEffect(stack);
+    }
+
+
+    /**
      * 能不能堆叠
      */
     @Override
@@ -361,6 +364,111 @@ public class SoulModelItem extends ItemModelItem {
         return super.getHarvestLevel(stack, tool, player, blockState);
     }
 
+    /**
+     * 属性
+     * @param slot
+     * @param stack
+     * @return
+     */
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
+        Item item = findItem(stack);
+        if (item!=null){
+            return item.getAttributeModifiers(slot);
+        }
+        return super.getAttributeModifiers(slot);
+    }
+
+    /**
+     * 破坏方块后
+     * @param itemstack
+     * @param pos
+     * @param player
+     * @return 是否破坏成功
+     */
+    @Override
+    public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, PlayerEntity player) {
+        Item item = findItem(itemstack);
+        if (item!=null){
+            return item.onBlockStartBreak(itemstack,pos,player);
+        }
+        return super.onBlockStartBreak(itemstack,pos,player);
+    }
+
+    /**
+     * 使用方块后调用
+     * @param stack
+     * @param context
+     * @return
+     */
+    @Override
+    public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
+        Item item = findItem(stack);
+        if (item!=null){
+            return item.onItemUseFirst(stack,context);
+        }
+        return super.onItemUseFirst(stack,context);
+    }
+
+    /**
+     * 是否为弩
+     * @param stack
+     * @return
+     */
+    @Override
+    public boolean isCrossbow(ItemStack stack) {
+        Item item = findItem(stack);
+        if (item!=null){
+            return item.isCrossbow(stack);
+        }
+        return super.isCrossbow(stack);
+    }
+
+    /**
+     * 使用时调用tick
+     * @param stack
+     * @param player
+     * @param count
+     */
+    @Override
+    public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
+        Item item = findItem(stack);
+        if (item!=null){
+            item.onUsingTick(stack,player,count);
+        }
+        super.onUsingTick(stack,player,count);
+    }
+
+    /**
+     * 左击实体
+     * @param stack
+     * @param player
+     * @param entity
+     * @return 是否造成伤害
+     */
+    @Override
+    public boolean onLeftClickEntity(ItemStack stack, PlayerEntity player, Entity entity) {
+        Item item = findItem(stack);
+        if (item!=null){
+           return item.onLeftClickEntity(stack,player,entity);
+        }
+        return super.onLeftClickEntity(stack,player,entity);
+    }
+
+    /**
+     * 凋落物更新
+     * @param stack
+     * @param entity
+     * @return
+     */
+    @Override
+    public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
+        Item item = findItem(stack);
+        if (item!=null){
+           return item.onEntityItemUpdate(stack,entity);
+        }
+        return super.onEntityItemUpdate(stack,entity);
+    }
 
     /**
      * 查找物品灵魂

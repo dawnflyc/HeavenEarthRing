@@ -12,9 +12,4 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = HeavenEarthRing.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
 
-    @Override
-    public void init() {
-        ModItem.register();
-        ModModel.registerModel();
-    }
 }

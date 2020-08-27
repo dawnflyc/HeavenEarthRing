@@ -52,11 +52,11 @@ public class ModelPack {
                 CompoundNBT compoundNBT = new CompoundNBT();
                 renderModelNBT.serializeNBT(compoundNBT);
                 itemStack.setTag(compoundNBT);
+                playerEntity.addItemStackToInventory(itemStack);
                 if (!playerEntity.isCreative()) {
                     ItemStack main = playerEntity.getHeldItem(Hand.MAIN_HAND);
                     main.setCount(main.getCount() - 1);
                 }
-                playerEntity.addItemStackToInventory(itemStack);
             }
         });
         ctx.get().setPacketHandled(true);

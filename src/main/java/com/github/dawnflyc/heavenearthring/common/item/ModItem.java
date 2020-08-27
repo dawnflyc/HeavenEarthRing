@@ -1,6 +1,8 @@
 package com.github.dawnflyc.heavenearthring.common.item;
 
 import com.github.dawnflyc.heavenearthring.HeavenEarthRing;
+import com.github.dawnflyc.heavenearthring.client.model.ModModel;
+import com.github.dawnflyc.heavenearthring.common.item.model.FoodModelItem;
 import com.github.dawnflyc.heavenearthring.common.item.model.GuiModelItem;
 import com.github.dawnflyc.heavenearthring.common.item.model.ItemModelItem;
 import com.github.dawnflyc.heavenearthring.common.item.model.SoulModelItem;
@@ -55,9 +57,11 @@ public class ModItem {
 
 
     public static void registerModelItem() {
-        registerItem(new ItemModelItem());
-        registerItem(new GuiModelItem());
-        registerItem(new SoulModelItem());
+        registerItem((Item) ModModel.registerIModel(new ItemModelItem()));
+        registerItem((Item) ModModel.registerIModel(new GuiModelItem()));
+        registerItem((Item) ModModel.registerIModel(new SoulModelItem()));
+        registerItem((Item) ModModel.registerIModel(new FoodModelItem()));
+
     }
 
 }

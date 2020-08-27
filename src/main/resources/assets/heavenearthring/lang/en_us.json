@@ -11,5 +11,6 @@
   "tooltip.heavenearthring.item.item_model_soul_info": "Model Soul: %s",
   "tooltip.heavenearthring.item.item_model_gui_info": "Model Soul: inventory",
   "tooltip.heavenearthring.item.item_model_error": "Model Error ! ! !",
-  "tooltip.heavenearthring.item.item_model_soul_error": "Soul Error ! ! !"
+  "tooltip.heavenearthring.item.item_model_soul_error": "Soul Error ! ! !",
+  "tooltip.heavenearthring.item.item_model_food_info": "Hunger: %1$s , Saturation: %2$s "
 }

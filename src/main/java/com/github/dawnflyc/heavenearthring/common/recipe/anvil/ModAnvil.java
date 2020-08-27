@@ -3,6 +3,7 @@ package com.github.dawnflyc.heavenearthring.common.recipe.anvil;
 import com.github.dawnflyc.heavenearthring.common.item.ModItem;
 import com.github.dawnflyc.heavenearthring.common.item.RandomDyeItem;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
+import com.github.dawnflyc.heavenearthring.common.nbt.FoodModelNBT;
 import com.github.dawnflyc.heavenearthring.common.nbt.RenderModelNBT;
 import com.github.dawnflyc.heavenearthring.common.nbt.SoulModelNBT;
 import net.minecraft.item.DyeColor;
@@ -48,15 +49,25 @@ public class ModAnvil {
         AnvilEvent.AddAnvilRecipe(input -> {
             if (input.getLeft().getItem() instanceof IItemModel && !(input.getRight().getItem() instanceof IItemModel) && !(input.getRight().getItem() instanceof RandomDyeItem)
                     && !(input.getRight().getItem() instanceof DyeItem)) {
-                if (!Items.AIR.equals(input.getRight().getItem()) && !Items.AIR.getRegistryName().equals(input.getRight().getItem().getRegistryName())) {
-                    ItemStack itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_soul_model"));
-                    RenderModelNBT renderModelNBT = new RenderModelNBT(input.getLeft().getTag());
-                    SoulModelNBT soulModelNBT = new SoulModelNBT(input.getRight().getItem().getRegistryName());
+                if (!Items.AIR.equals(input.getRight().getItem()) && !Items.AIR.getRegistryName().equals(input.getRight().getItem().getRegistryName()) && input.getLeft().getCount()>0 && input.getRight().getCount()>0) {
+                    //声明
+                    ItemStack itemStack;
                     CompoundNBT compoundNBT = new CompoundNBT();
-                    //继承渲染nbt
+                    RenderModelNBT renderModelNBT = new RenderModelNBT(input.getLeft().getTag());
                     renderModelNBT.serializeNBT(compoundNBT);
-                    //增加灵魂
-                    soulModelNBT.serializeNBT(compoundNBT);
+
+                    //判断灵魂
+                    if (input.getRight().isFood()){
+                        itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_food_model"));
+                        FoodModelNBT foodModelNBT=new FoodModelNBT(input.getRight().getItem().getFood());
+                        foodModelNBT.serializeNBT(compoundNBT);
+
+                    }else {
+                        itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_soul_model"));
+                        SoulModelNBT soulModelNBT = new SoulModelNBT(input.getRight().getItem().getRegistryName());
+                        soulModelNBT.serializeNBT(compoundNBT);
+                    }
+
                     itemStack.setTag(compoundNBT);
                     return new AnvilIO.AnvilOutput(itemStack, 1, 1);
                 }

@@ -11,5 +11,6 @@
   "tooltip.heavenearthring.item.item_model_soul_info": "模型靈魂: %s",
   "tooltip.heavenearthring.item.item_model_gui_info": "模型靈魂: 庫存",
   "tooltip.heavenearthring.item.item_model_error": "模型異常！！！",
-  "tooltip.heavenearthring.item.item_model_soul_error": "靈魂異常！！！"
+  "tooltip.heavenearthring.item.item_model_soul_error": "靈魂異常！！！",
+  "tooltip.heavenearthring.item.item_model_food_info": "飢餓度: %1$s , 飽和度: %2$s "
 }
