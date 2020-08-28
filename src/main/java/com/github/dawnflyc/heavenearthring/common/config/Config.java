@@ -2,8 +2,6 @@ package com.github.dawnflyc.heavenearthring.common.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.*;
-
 
 public class Config {
 

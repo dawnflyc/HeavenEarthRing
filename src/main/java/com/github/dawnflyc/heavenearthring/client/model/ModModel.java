@@ -1,13 +1,8 @@
 package com.github.dawnflyc.heavenearthring.client.model;
 
-import com.github.dawnflyc.heavenearthring.common.item.ModItem;
-import com.github.dawnflyc.heavenearthring.common.item.model.GuiModelItem;
 import com.github.dawnflyc.heavenearthring.common.item.model.IItemModel;
-import com.github.dawnflyc.heavenearthring.common.item.model.ItemModelItem;
-import com.github.dawnflyc.heavenearthring.common.item.model.SoulModelItem;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

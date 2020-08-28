@@ -17,7 +17,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -43,14 +42,14 @@ public class ModelMudItem extends Item {
     public ActionResultType onItemUse(ItemUseContext context) {
         if (context.getWorld().isRemote && context.getItem().getCount() > 0) {
             if (!(context.getHand() == Hand.MAIN_HAND && !context.getPlayer().getHeldItem(Hand.OFF_HAND).isEmpty() && !(context.getPlayer().getHeldItem(Hand.OFF_HAND).getItem() instanceof IItemModel))) {
-               Item item= context.getWorld().getBlockState(context.getPos()).getBlock().asItem();
-               if (item!=null && !Items.AIR.equals(item)){
-                   IBakedModel model=Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(new ItemStack(item),null,null);
-                   if (!model.isBuiltInRenderer()){
-                       createModel(context.getPlayer(), context.getWorld(), context.getPos());
-                       return ActionResultType.SUCCESS;
-                   }
-               }
+                Item item = context.getWorld().getBlockState(context.getPos()).getBlock().asItem();
+                if (item != null && !Items.AIR.equals(item)) {
+                    IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(new ItemStack(item), null, null);
+                    if (!model.isBuiltInRenderer()) {
+                        createModel(context.getPlayer(), context.getWorld(), context.getPos());
+                        return ActionResultType.SUCCESS;
+                    }
+                }
 
             }
         }
@@ -63,10 +62,10 @@ public class ModelMudItem extends Item {
         if (worldIn.isRemote && handIn == Hand.MAIN_HAND && !(playerIn.getHeldItem(Hand.OFF_HAND).getItem() instanceof IItemModel)) {
             ItemStack main = playerIn.getHeldItem(Hand.MAIN_HAND);
             ItemStack off = playerIn.getHeldItem(Hand.OFF_HAND);
-            IBakedModel model=Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(off,null,null);
+            IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(off, null, null);
             if (main.getCount() > 0 && off.getCount() > 0 && !model.isBuiltInRenderer()) {
                 createModel(playerIn, off);
-                return new ActionResult<ItemStack>(ActionResultType.SUCCESS, main);
+                return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
             }
         }
         return ActionResult.resultPass(playerIn.getHeldItem(handIn));
@@ -86,7 +85,7 @@ public class ModelMudItem extends Item {
 
     @OnlyIn(Dist.CLIENT)
     protected Integer getBlockColor(World world, BlockPos pos) {
-        return Minecraft.getInstance().getBlockColors().getColor(world.getBlockState(pos),world,pos,0);
+        return Minecraft.getInstance().getBlockColors().getColor(world.getBlockState(pos), world, pos, 0);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -102,7 +101,7 @@ public class ModelMudItem extends Item {
 
     @OnlyIn(Dist.CLIENT)
     protected void createModel(PlayerEntity playerEntity, ResourceLocation resourceLocation, int color) {
-        if (!Items.AIR.getRegistryName().equals(resourceLocation)){
+        if (!Items.AIR.getRegistryName().equals(resourceLocation)) {
             Networking.INSTANCE.sendToServer(new ModelPack(playerEntity.getUniqueID(), resourceLocation, color));
         }
     }

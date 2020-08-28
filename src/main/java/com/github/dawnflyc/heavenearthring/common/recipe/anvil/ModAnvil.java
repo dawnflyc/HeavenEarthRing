@@ -49,7 +49,7 @@ public class ModAnvil {
         AnvilEvent.AddAnvilRecipe(input -> {
             if (input.getLeft().getItem() instanceof IItemModel && !(input.getRight().getItem() instanceof IItemModel) && !(input.getRight().getItem() instanceof RandomDyeItem)
                     && !(input.getRight().getItem() instanceof DyeItem)) {
-                if (!Items.AIR.equals(input.getRight().getItem()) && !Items.AIR.getRegistryName().equals(input.getRight().getItem().getRegistryName()) && input.getLeft().getCount()>0 && input.getRight().getCount()>0) {
+                if (!Items.AIR.equals(input.getRight().getItem()) && !Items.AIR.getRegistryName().equals(input.getRight().getItem().getRegistryName()) && input.getLeft().getCount() > 0 && input.getRight().getCount() > 0) {
                     //声明
                     ItemStack itemStack;
                     CompoundNBT compoundNBT = new CompoundNBT();
@@ -57,12 +57,12 @@ public class ModAnvil {
                     renderModelNBT.serializeNBT(compoundNBT);
 
                     //判断灵魂
-                    if (input.getRight().isFood()){
+                    if (input.getRight().isFood()) {
                         itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_food_model"));
-                        FoodModelNBT foodModelNBT=new FoodModelNBT(input.getRight().getItem().getFood());
+                        FoodModelNBT foodModelNBT = new FoodModelNBT(input.getRight().getItem().getFood());
                         foodModelNBT.serializeNBT(compoundNBT);
 
-                    }else {
+                    } else {
                         itemStack = new ItemStack(ModItem.REG_ITEMS.get("item_soul_model"));
                         SoulModelNBT soulModelNBT = new SoulModelNBT(input.getRight().getItem().getRegistryName());
                         soulModelNBT.serializeNBT(compoundNBT);

@@ -4,15 +4,12 @@ import net.minecraft.item.Food;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.EffectUtils;
 import net.minecraftforge.common.util.Constants;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class FoodModelNBT implements IModelNBT {
     /**
@@ -42,33 +39,33 @@ public class FoodModelNBT implements IModelNBT {
 
 
     public FoodModelNBT(CompoundNBT nbt) {
-    if (nbt!=null){
-        CompoundNBT compoundNBT=nbt.getCompound("food_model");
-        if (compoundNBT!=null){
-            this.hunger=compoundNBT.getFloat("hunger");
-            this.saturation=compoundNBT.getFloat("saturation");
-            this.meat=compoundNBT.getBoolean("meat");
-            this.alwaysEdible=compoundNBT.getBoolean("always_edible");
+        if (nbt != null) {
+            CompoundNBT compoundNBT = nbt.getCompound("food_model");
+            if (compoundNBT != null) {
+                this.hunger = compoundNBT.getFloat("hunger");
+                this.saturation = compoundNBT.getFloat("saturation");
+                this.meat = compoundNBT.getBoolean("meat");
+                this.alwaysEdible = compoundNBT.getBoolean("always_edible");
 
-            ListNBT listNBT=compoundNBT.getList("effects", Constants.NBT.TAG_COMPOUND);
-            List<Pair<EffectInstance, Float>> list= new ArrayList<>();
-            if (listNBT!=null){
-                for (INBT effectNBT : listNBT) {
-                    if (effectNBT instanceof CompoundNBT){
-                        CompoundNBT compoundNBTEffect= (CompoundNBT) effectNBT;
-                        CompoundNBT effectInstanceNBT=compoundNBTEffect.getCompound("effect");
-                        if (effectInstanceNBT!=null){
-                            float level=compoundNBTEffect.getFloat("level");
-                            EffectInstance effectInstance=EffectInstance.read(effectInstanceNBT);
-                            list.add(Pair.of(effectInstance,level));
+                ListNBT listNBT = compoundNBT.getList("effects", Constants.NBT.TAG_COMPOUND);
+                List<Pair<EffectInstance, Float>> list = new ArrayList<>();
+                if (listNBT != null) {
+                    for (INBT effectNBT : listNBT) {
+                        if (effectNBT instanceof CompoundNBT) {
+                            CompoundNBT compoundNBTEffect = (CompoundNBT) effectNBT;
+                            CompoundNBT effectInstanceNBT = compoundNBTEffect.getCompound("effect");
+                            if (effectInstanceNBT != null) {
+                                float level = compoundNBTEffect.getFloat("level");
+                                EffectInstance effectInstance = EffectInstance.read(effectInstanceNBT);
+                                list.add(Pair.of(effectInstance, level));
+                            }
                         }
                     }
                 }
-            }
-            this.effects=list;
+                this.effects = list;
 
+            }
         }
-    }
 
     }
 
@@ -81,33 +78,33 @@ public class FoodModelNBT implements IModelNBT {
     }
 
     public FoodModelNBT(Food food) {
-        this.hunger=food.getHealing();
-        this.saturation=food.getSaturation();
-        this.meat=food.isMeat();
-        this.alwaysEdible=food.canEatWhenFull();
-        this.effects=food.getEffects();
+        this.hunger = food.getHealing();
+        this.saturation = food.getSaturation();
+        this.meat = food.isMeat();
+        this.alwaysEdible = food.canEatWhenFull();
+        this.effects = food.getEffects();
     }
 
-    public void serializeNBT(CompoundNBT nbt){
-        if (nbt!=null){
-            CompoundNBT compoundNBT=new CompoundNBT();
-            compoundNBT.putFloat("hunger",this.hunger);
-            compoundNBT.putFloat("saturation",this.saturation);
-            compoundNBT.putBoolean("meat",this.meat);
-            compoundNBT.putBoolean("always_edible",this.alwaysEdible);
+    public void serializeNBT(CompoundNBT nbt) {
+        if (nbt != null) {
+            CompoundNBT compoundNBT = new CompoundNBT();
+            compoundNBT.putFloat("hunger", this.hunger);
+            compoundNBT.putFloat("saturation", this.saturation);
+            compoundNBT.putBoolean("meat", this.meat);
+            compoundNBT.putBoolean("always_edible", this.alwaysEdible);
 
-            ListNBT effectsNBT=new ListNBT();
+            ListNBT effectsNBT = new ListNBT();
             for (Pair<EffectInstance, Float> effect : this.effects) {
-                CompoundNBT effectNBT=new CompoundNBT();
-                CompoundNBT effectInstance=new CompoundNBT();
+                CompoundNBT effectNBT = new CompoundNBT();
+                CompoundNBT effectInstance = new CompoundNBT();
                 effect.getLeft().write(effectInstance);
-                effectNBT.put("effect",effectInstance);
-                effectNBT.putFloat("level",effect.getRight());
+                effectNBT.put("effect", effectInstance);
+                effectNBT.putFloat("level", effect.getRight());
                 effectsNBT.add(effectNBT);
             }
 
-            compoundNBT.put("effects",effectsNBT);
-            nbt.put("food_model",compoundNBT);
+            compoundNBT.put("effects", effectsNBT);
+            nbt.put("food_model", compoundNBT);
 
         }
     }

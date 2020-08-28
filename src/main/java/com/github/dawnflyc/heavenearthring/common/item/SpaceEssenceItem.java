@@ -51,7 +51,7 @@ public class SpaceEssenceItem extends Item {
                         main.shrink(1);
                         off.shrink(1);
                     }
-                    return ActionResult.resultSuccess(itemStack);
+                    return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
                 }
             }
         }

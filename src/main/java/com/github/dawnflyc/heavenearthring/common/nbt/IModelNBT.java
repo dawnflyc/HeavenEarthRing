@@ -4,5 +4,5 @@ import net.minecraft.nbt.CompoundNBT;
 
 public interface IModelNBT {
 
-     void serializeNBT(CompoundNBT compoundNBT);
+    void serializeNBT(CompoundNBT compoundNBT);
 }

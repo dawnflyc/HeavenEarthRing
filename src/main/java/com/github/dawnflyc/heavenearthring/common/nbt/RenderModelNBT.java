@@ -31,7 +31,7 @@ public class RenderModelNBT implements IModelNBT {
     }
 
     public void serializeNBT(CompoundNBT nbt) {
-        if (nbt!=null){
+        if (nbt != null) {
             CompoundNBT compoundNBT = new CompoundNBT();
             compoundNBT.putString("render", this.resourceLocation.toString());
             compoundNBT.putInt("color", this.color);

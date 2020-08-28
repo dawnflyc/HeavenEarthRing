@@ -62,7 +62,7 @@ public class SoulModelItem extends ItemModelItem {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         Item item = findItem(playerIn.getHeldItem(handIn));
         if (item != null) {
-           return item.onItemRightClick(worldIn, playerIn, handIn);
+            return item.onItemRightClick(worldIn, playerIn, handIn);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
@@ -183,7 +183,7 @@ public class SoulModelItem extends ItemModelItem {
     public boolean onDroppedByPlayer(ItemStack stack, PlayerEntity player) {
         Item item = findItem(stack);
         if (item != null) {
-           return item.onDroppedByPlayer(stack, player);
+            return item.onDroppedByPlayer(stack, player);
         }
         return super.onDroppedByPlayer(stack, player);
     }
@@ -251,9 +251,9 @@ public class SoulModelItem extends ItemModelItem {
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
         Item item = findItem(stack);
         if (item != null) {
-            return item.onBlockDestroyed(stack, worldIn,state,pos,entityLiving);
+            return item.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
         }
-        return item.onBlockDestroyed(stack, worldIn,state,pos,entityLiving);
+        return item.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
     }
 
     /**
@@ -366,6 +366,7 @@ public class SoulModelItem extends ItemModelItem {
 
     /**
      * 属性
+     *
      * @param slot
      * @param stack
      * @return
@@ -373,7 +374,7 @@ public class SoulModelItem extends ItemModelItem {
     @Override
     public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
         Item item = findItem(stack);
-        if (item!=null){
+        if (item != null) {
             return item.getAttributeModifiers(slot);
         }
         return super.getAttributeModifiers(slot);
@@ -381,6 +382,7 @@ public class SoulModelItem extends ItemModelItem {
 
     /**
      * 破坏方块后
+     *
      * @param itemstack
      * @param pos
      * @param player
@@ -389,14 +391,15 @@ public class SoulModelItem extends ItemModelItem {
     @Override
     public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, PlayerEntity player) {
         Item item = findItem(itemstack);
-        if (item!=null){
-            return item.onBlockStartBreak(itemstack,pos,player);
+        if (item != null) {
+            return item.onBlockStartBreak(itemstack, pos, player);
         }
-        return super.onBlockStartBreak(itemstack,pos,player);
+        return super.onBlockStartBreak(itemstack, pos, player);
     }
 
     /**
      * 使用方块后调用
+     *
      * @param stack
      * @param context
      * @return
@@ -404,21 +407,22 @@ public class SoulModelItem extends ItemModelItem {
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
         Item item = findItem(stack);
-        if (item!=null){
-            return item.onItemUseFirst(stack,context);
+        if (item != null) {
+            return item.onItemUseFirst(stack, context);
         }
-        return super.onItemUseFirst(stack,context);
+        return super.onItemUseFirst(stack, context);
     }
 
     /**
      * 是否为弩
+     *
      * @param stack
      * @return
      */
     @Override
     public boolean isCrossbow(ItemStack stack) {
         Item item = findItem(stack);
-        if (item!=null){
+        if (item != null) {
             return item.isCrossbow(stack);
         }
         return super.isCrossbow(stack);
@@ -426,6 +430,7 @@ public class SoulModelItem extends ItemModelItem {
 
     /**
      * 使用时调用tick
+     *
      * @param stack
      * @param player
      * @param count
@@ -433,14 +438,15 @@ public class SoulModelItem extends ItemModelItem {
     @Override
     public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
         Item item = findItem(stack);
-        if (item!=null){
-            item.onUsingTick(stack,player,count);
+        if (item != null) {
+            item.onUsingTick(stack, player, count);
         }
-        super.onUsingTick(stack,player,count);
+        super.onUsingTick(stack, player, count);
     }
 
     /**
      * 左击实体
+     *
      * @param stack
      * @param player
      * @param entity
@@ -449,14 +455,15 @@ public class SoulModelItem extends ItemModelItem {
     @Override
     public boolean onLeftClickEntity(ItemStack stack, PlayerEntity player, Entity entity) {
         Item item = findItem(stack);
-        if (item!=null){
-           return item.onLeftClickEntity(stack,player,entity);
+        if (item != null) {
+            return item.onLeftClickEntity(stack, player, entity);
         }
-        return super.onLeftClickEntity(stack,player,entity);
+        return super.onLeftClickEntity(stack, player, entity);
     }
 
     /**
      * 凋落物更新
+     *
      * @param stack
      * @param entity
      * @return
@@ -464,17 +471,17 @@ public class SoulModelItem extends ItemModelItem {
     @Override
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
         Item item = findItem(stack);
-        if (item!=null){
-           return item.onEntityItemUpdate(stack,entity);
+        if (item != null) {
+            return item.onEntityItemUpdate(stack, entity);
         }
-        return super.onEntityItemUpdate(stack,entity);
+        return super.onEntityItemUpdate(stack, entity);
     }
 
     /**
      * 查找物品灵魂
      */
     public Item findItem(ItemStack itemStack) {
-        if (itemStack!=null && itemStack.getTag()!=null){
+        if (itemStack != null && itemStack.getTag() != null) {
             SoulModelNBT soulModelNBT = new SoulModelNBT(itemStack.getTag());
             Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
             if (!(item instanceof AirItem)) {
@@ -489,11 +496,11 @@ public class SoulModelItem extends ItemModelItem {
     @OnlyIn(Dist.CLIENT)
     public void modelInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.modelInformation(stack, worldIn, tooltip, flagIn);
-        if (stack!=null && stack.getTag()!=null){
+        if (stack != null && stack.getTag() != null) {
             SoulModelNBT soulModelNBT = new SoulModelNBT(stack.getTag());
             Item item = ForgeRegistries.ITEMS.getValue(soulModelNBT.getResourceLocation());
             tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_info", item.getName().getString()));
-        }else {
+        } else {
             tooltip.add(new TranslationTextComponent("tooltip.heavenearthring.item.item_model_soul_error").setStyle(new Style().setColor(TextFormatting.RED)));
         }
     }
